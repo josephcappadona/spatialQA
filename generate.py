@@ -45,14 +45,14 @@ def evaluate(gen):
 
 if __name__ == '__main__':
     
-    motion_gen = MotionGenerator()
-    #evaluate(motion_gen)
+    motion_gen = MotionGenerator(sample=0.01)
+    evaluate(motion_gen)
     
-    orientation_gen = OrientationGenerator()
-    #evaluate(orientation_gen)
+    orientation_gen = OrientationGenerator(sample=0.01)
+    evaluate(orientation_gen)
     
     distance_gen = DistanceGenerator(sample=0.01)
-    #evaluate(distance_gen)
+    evaluate(distance_gen)
     
-    metaphor_gen = MetaphorGenerator()
+    metaphor_gen = MetaphorGenerator(sample=0.01)
     evaluate(metaphor_gen)
