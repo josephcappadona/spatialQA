@@ -4,6 +4,8 @@ from base import BaseGenerator
 
 class OrientationGenerator(BaseGenerator):
 
+    reasoning_type = 'orientation'
+
     locations = {'theater', 'school', 'park'}
     cardinals = {'north', 'south', 'east', 'west', 'northeast', 'southeast', 'northwest', 'southwest'}
     #directions = {'above', 'below'}

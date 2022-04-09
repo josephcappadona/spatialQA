@@ -4,55 +4,25 @@ from distance import DistanceGenerator
 from metaphor import MetaphorGenerator
 from sklearn.metrics import accuracy_score as accuracy
 
-from transformers import T5Tokenizer, T5ForConditionalGeneration
+import csv
 
-
-def evaluate(gen):
-    # adapted from https://huggingface.co/docs/transformers/model_doc/t5#training
-    tokenizer = T5Tokenizer.from_pretrained("t5-small")
-    model = T5ForConditionalGeneration.from_pretrained("t5-small")
-
-    tokenizer.padding_side = "left"
-    tokenizer.pad_token = tokenizer.eos_token
-
-    count = 0
-    total = 0
-
-    for batch_x, batch_y in gen.batch(
-        batch_size=32,
-    ):
-        transform = lambda x: f"mnli hypothesis: {x[1]} premise: {x[0]}" # task setup for T5
-        batch_x_transformed = list(map(transform, batch_x))
-        
-        inputs = tokenizer(batch_x_transformed, return_tensors="pt", padding=True)
-        output_sequences = model.generate(
-            input_ids=inputs["input_ids"],
-            attention_mask=inputs["attention_mask"],
-            do_sample=False,
-        )
-        answers = tokenizer.batch_decode(output_sequences, skip_special_tokens=True)
-
-        acc = accuracy(answers, batch_y)
-        count += acc * len(answers)
-        total += len(answers)
-
-        for (p, h), e, a in zip(batch_x, batch_y, answers):
-            print(f"{e} {a}: {p} => {h}")
-        break
-        
-    print('Acc:', count / total)
+def write_to_tsv(tsv, gen):
+    
+    for (p, h), e, (r_type, fn_name) in gen:
+        print(*[p, h, e, r_type, fn_name])
+        tsv_writer.writerow([p, h, e, r_type, fn_name])
 
 
 if __name__ == '__main__':
+
+    tsv_filename = "data.tsv"
+    tsv_file = open(tsv_filename, 'w+', encoding='utf8', newline='')
+    tsv_writer = csv.writer(tsv_file, delimiter='\t', lineterminator='\n')
+    tsv_writer.writerow(['premise', 'hypothesis', 'entailment', 'reasoning_type', 'function_name'])
     
-    motion_gen = MotionGenerator(sample=0.01)
-    evaluate(motion_gen)
-    
-    orientation_gen = OrientationGenerator(sample=0.01)
-    evaluate(orientation_gen)
-    
-    distance_gen = DistanceGenerator(sample=0.01)
-    evaluate(distance_gen)
-    
-    metaphor_gen = MetaphorGenerator(sample=0.01)
-    evaluate(metaphor_gen)
+    motion_df = write_to_tsv(tsv_file, MotionGenerator())
+    orientation_df = write_to_tsv(tsv_file, OrientationGenerator())
+    distance_df = write_to_tsv(tsv_file, DistanceGenerator())
+    metaphor_df = write_to_tsv(tsv_file, MetaphorGenerator())
+
+    tsv_file.close()

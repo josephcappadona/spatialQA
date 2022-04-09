@@ -3,6 +3,9 @@ from base import BaseGenerator
 
 
 class MotionGenerator(BaseGenerator):
+
+    reasoning_type = 'motion'
+
     movement_jerund = ['running', 'sprinting', 'jogging', 'walking', 'jumping', 'swimming']
     stationary_jerund = ['standing', 'sitting', 'laying down', 'sleeping']
     in_motion_phrase = ['moving', 'in motion', 'not stationary']

@@ -4,6 +4,8 @@ from base import BaseGenerator
 
 class DistanceGenerator(BaseGenerator):
 
+    reasoning_type = 'distance'
+
     objects = {'ball', 'chair', 'table', 'cup', 'water'}
     touching = {'touching', 'in contact with'}
     nearby = {'close to', 'near', 'in the vicinity of'}

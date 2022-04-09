@@ -3,6 +3,8 @@ from base import BaseGenerator
 
 class MetaphorGenerator(BaseGenerator):
 
+    reasoning_type = 'metaphor'
+
     objects = {'ball', 'dax', 'widget', 'card'}
     agents = {'girl', 'woman', 'boy', 'man', 'dog', 'cat'}
 
