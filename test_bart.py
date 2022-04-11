@@ -37,18 +37,33 @@ def evaluate(ds, model, tokenizer, results_fn="results.tsv"):
                                 truncation='only_first')
             logits = model(x.to(device))[0]
             
-            entail_contradiction_logits = logits[:,[0,2]]
+            
+            entail_contradiction_logits = logits[:,[0,2]]       # Without Neutral
             probs = entail_contradiction_logits.softmax(dim=1)
             prob_label_is_true = probs[:,1]
             output.append(prob_label_is_true)
+
+            
+            #output.append(logits.softmax(dim=1))       # With Neutral
         
-        answers = []
+
+        
+        answers = []        #Without Neutral
         for val in output:
             if (val < 0.5) == True:
                 answers.append('contradiction')
             else:
                 answers.append('entailment')
+
         
+        # answers = []      # With Neutral
+        # for val in output:
+        #     if torch.argmax(val) == 0:
+        #         answers.append('contradiction')
+        #     elif torch.argmax(val) == 2:
+        #         answers.append('entailment')
+        #     else:
+        #         answers.append('neutral')
         
         acc = accuracy(answers, batch_y)
         count += acc * len(answers)
