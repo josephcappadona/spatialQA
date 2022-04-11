@@ -9,7 +9,7 @@ from tqdm import tqdm
 
 
 def evaluate(ds, model, tokenizer, results_fn="results.tsv"):
-    # adapted from https://huggingface.co/docs/transformers/model_doc/t5#training
+    # adapted from https://huggingface.co/facebook/bart-large-mnli
     
     device = 'cuda:0' if torch.cuda.is_available() else 'cpu'
     model.to(device)
@@ -26,13 +26,13 @@ def evaluate(ds, model, tokenizer, results_fn="results.tsv"):
     )):
         #if i % 10 == 0: print(i)
         print(i)
-        premise = [i[0] for i in batch_x]
+        premise = [batch[0] for batch in batch_x]
         transform = lambda x: f"This example is {x[1]}"
         hypothesis = list(map(transform, batch_x))
         
         output = []
         for j in range(len(premise)):
-            # run through model pre-trained on MNLI
+            
             x = tokenizer.encode(premise[j], hypothesis[j], return_tensors='pt',
                                 truncation='only_first')
             logits = model(x.to(device))[0]
