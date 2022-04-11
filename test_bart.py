@@ -31,9 +31,9 @@ def evaluate(ds, model, tokenizer, results_fn="results.tsv"):
         hypothesis = list(map(transform, batch_x))
         
         output = []
-        for i in range(len(premise)):
+        for j in range(len(premise)):
             # run through model pre-trained on MNLI
-            x = tokenizer.encode(premise[i], hypothesis[i], return_tensors='pt',
+            x = tokenizer.encode(premise[j], hypothesis[j], return_tensors='pt',
                                 truncation='only_first')
             logits = model(x.to(device))[0]
             
@@ -43,8 +43,8 @@ def evaluate(ds, model, tokenizer, results_fn="results.tsv"):
             output.append(prob_label_is_true)
         
         answers = []
-        for i in output:
-            if (i < 0.5) == True:
+        for val in output:
+            if (val < 0.5) == True:
                 answers.append('contradiction')
             else:
                 answers.append('entailment')
