@@ -1,5 +1,5 @@
 import os
-from data import SpatialNLIDataset
+from dataset import SpatialNLIDataset
 import torch
 
 from evaluation import evaluate

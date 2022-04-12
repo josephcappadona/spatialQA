@@ -14,16 +14,21 @@ python generate.py
 
 # test model
 python test.py t5-small
+
+# analyze results
+python analyze.py t5-small
 ```
 
 `generate.py` outputs `data.tsv`.
 
 `test.py` outputs a results TSV to `results/results-MODEL-NAME.tsv`.
 
-Currently only T5 models are supported.
+`analyze.py` prints an analysis of model performance broken down by question category (motion, distance, etc.) and sub-category (motion_positive, motion_negative, etc.).
+
+Currently only T5, BART, and RoBERTa are supported.
 
 ## TODO
 
-* Update data preprocess for models other than T5
-* Separate testing and analysis(?)
+* Add more models (GPT-3, UnifiedQAv2)
 * Refactor generation to make it simpler and more scalable
+* Add more examples
