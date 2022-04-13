@@ -1,0 +1,341 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2636
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fnil\fcharset0 Monaco;}
+{\colortbl;\red255\green255\blue255;\red255\green255\blue255;\red0\green0\blue0;\red242\green242\blue242;
+}
+{\*\expandedcolortbl;;\csgray\c100000;\csgray\c0\c85000;\csgray\c95825;
+}
+\margl1440\margr1440\vieww17800\viewh13240\viewkind0
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\f0\fs28 \cf2 \cb3 \CocoaLigature0 t5-Small\
+\cf4 motion: 280 / 360 = 0.778\
+	gen_motion_negative: 107 / 108 = 0.991\
+	gen_motion_positive: 108 / 108 = 1\
+	gen_non_motion_negative: 36 / 72 = 0.5\
+	gen_non_motion_positive: 29 / 72 = 0.403\
+orientation: 284 / 768 = 0.37\
+	gen_orientation_cardinals_negative: 284 / 336 = 0.845\
+	gen_orientation_cardinals_neutral: 0 / 384 = 0\
+	gen_orientation_cardinals_positive: 0 / 48 = 0\
+distance: 1060 / 2260 = 0.469\
+	gen_distance_far_negative: 200 / 200 = 1\
+	gen_distance_far_positive: 139 / 140 = 0.993\
+	gen_distance_nearby_neutral: 0 / 240 = 0\
+	gen_distance_not_touching_neutral: 1 / 480 = 0.00208\
+	gen_distance_touching_negative: 360 / 360 = 1\
+	gen_distance_touching_positive: 360 / 360 = 1\
+	gen_distance_transitivity_negative: 0 / 480 = 0\
+metaphor: 32 / 32 = 1\
+	gen_motion_metaphors: 20 / 20 = 1\
+	gen_orientation_metaphors: 12 / 12 = 1\
+\
+total: 0.4842105263157895\cf2 \
+\
+\
+t5-Base\
+\cf4 motion: 302 / 360 = 0.839\
+	gen_motion_negative: 108 / 108 = 1\
+	gen_motion_positive: 108 / 108 = 1\
+	gen_non_motion_negative: 43 / 72 = 0.597\
+	gen_non_motion_positive: 43 / 72 = 0.597\
+orientation: 277 / 768 = 0.361\
+	gen_orientation_cardinals_negative: 268 / 336 = 0.798\
+	gen_orientation_cardinals_neutral: 0 / 384 = 0\
+	gen_orientation_cardinals_positive: 9 / 48 = 0.188\
+distance: 1298 / 2260 = 0.574\
+	gen_distance_far_negative: 154 / 200 = 0.77\
+	gen_distance_far_positive: 91 / 140 = 0.65\
+	gen_distance_nearby_neutral: 0 / 240 = 0\
+	gen_distance_not_touching_neutral: 0 / 480 = 0\
+	gen_distance_touching_negative: 360 / 360 = 1\
+	gen_distance_touching_positive: 218 / 360 = 0.606\
+	gen_distance_transitivity_negative: 475 / 480 = 0.99\
+metaphor: 32 / 32 = 1\
+	gen_motion_metaphors: 20 / 20 = 1\
+	gen_orientation_metaphors: 12 / 12 = 1\
+\
+total: 0.558187134502924\
+\
+\
+t5-Large\
+motion: 333 / 360 = 0.925\
+	gen_motion_negative: 108 / 108 = 1\
+	gen_motion_positive: 108 / 108 = 1\
+	gen_non_motion_negative: 60 / 72 = 0.833\
+	gen_non_motion_positive: 57 / 72 = 0.792\
+orientation: 134 / 768 = 0.174\
+	gen_orientation_cardinals_negative: 119 / 336 = 0.354\
+	gen_orientation_cardinals_neutral: 0 / 384 = 0\
+	gen_orientation_cardinals_positive: 15 / 48 = 0.312\
+distance: 1427 / 2260 = 0.631\
+	gen_distance_far_negative: 198 / 200 = 0.99\
+	gen_distance_far_positive: 125 / 140 = 0.893\
+	gen_distance_nearby_neutral: 21 / 240 = 0.0875\
+	gen_distance_not_touching_neutral: 0 / 480 = 0\
+	gen_distance_touching_negative: 360 / 360 = 1\
+	gen_distance_touching_positive: 266 / 360 = 0.739\
+	gen_distance_transitivity_negative: 457 / 480 = 0.952\
+metaphor: 32 / 32 = 1\
+	gen_motion_metaphors: 20 / 20 = 1\
+	gen_orientation_metaphors: 12 / 12 = 1\
+\
+total: 0.5631578947368421\
+\
+\
+allenai/unifiedqa-t5-small\
+motion: 231 / 360 = 0.642\
+	gen_motion_negative: 105 / 108 = 0.972\
+	gen_motion_positive: 72 / 108 = 0.667\
+	gen_non_motion_negative: 32 / 72 = 0.444\
+	gen_non_motion_positive: 22 / 72 = 0.306\
+orientation: 338 / 768 = 0.44\
+	gen_orientation_cardinals_negative: 209 / 336 = 0.622\
+	gen_orientation_cardinals_neutral: 125 / 384 = 0.326\
+	gen_orientation_cardinals_positive: 4 / 48 = 0.0833\
+distance: 1059 / 2260 = 0.469\
+	gen_distance_far_negative: 172 / 200 = 0.86\
+	gen_distance_far_positive: 129 / 140 = 0.921\
+	gen_distance_nearby_neutral: 16 / 240 = 0.0667\
+	gen_distance_not_touching_neutral: 5 / 480 = 0.0104\
+	gen_distance_touching_negative: 360 / 360 = 1\
+	gen_distance_touching_positive: 360 / 360 = 1\
+	gen_distance_transitivity_negative: 17 / 480 = 0.0354\
+metaphor: 32 / 32 = 1\
+	gen_motion_metaphors: 20 / 20 = 1\
+	gen_orientation_metaphors: 12 / 12 = 1\
+\
+total: 0.4853801169590643\
+\
+\
+allenai/unifiedqa-t5-base\
+motion: 302 / 360 = 0.839\
+	gen_motion_negative: 108 / 108 = 1\
+	gen_motion_positive: 106 / 108 = 0.981\
+	gen_non_motion_negative: 44 / 72 = 0.611\
+	gen_non_motion_positive: 44 / 72 = 0.611\
+orientation: 315 / 768 = 0.41\
+	gen_orientation_cardinals_negative: 314 / 336 = 0.935\
+	gen_orientation_cardinals_neutral: 0 / 384 = 0\
+	gen_orientation_cardinals_positive: 1 / 48 = 0.0208\
+distance: 1287 / 2260 = 0.569\
+	gen_distance_far_negative: 176 / 200 = 0.88\
+	gen_distance_far_positive: 113 / 140 = 0.807\
+	gen_distance_nearby_neutral: 0 / 240 = 0\
+	gen_distance_not_touching_neutral: 0 / 480 = 0\
+	gen_distance_touching_negative: 351 / 360 = 0.975\
+	gen_distance_touching_positive: 239 / 360 = 0.664\
+	gen_distance_transitivity_negative: 408 / 480 = 0.85\
+metaphor: 32 / 32 = 1\
+	gen_motion_metaphors: 20 / 20 = 1\
+	gen_orientation_metaphors: 12 / 12 = 1\
+\
+total: 0.5660818713450292\
+\
+\
+allenai/unifiedqa-t5-large\
+motion: 333 / 360 = 0.925\
+	gen_motion_negative: 108 / 108 = 1\
+	gen_motion_positive: 108 / 108 = 1\
+	gen_non_motion_negative: 57 / 72 = 0.792\
+	gen_non_motion_positive: 60 / 72 = 0.833\
+orientation: 149 / 768 = 0.194\
+	gen_orientation_cardinals_negative: 131 / 336 = 0.39\
+	gen_orientation_cardinals_neutral: 0 / 384 = 0\
+	gen_orientation_cardinals_positive: 18 / 48 = 0.375\
+distance: 1365 / 2260 = 0.604\
+	gen_distance_far_negative: 200 / 200 = 1\
+	gen_distance_far_positive: 125 / 140 = 0.893\
+	gen_distance_nearby_neutral: 0 / 240 = 0\
+	gen_distance_not_touching_neutral: 0 / 480 = 0\
+	gen_distance_touching_negative: 360 / 360 = 1\
+	gen_distance_touching_positive: 252 / 360 = 0.7\
+	gen_distance_transitivity_negative: 428 / 480 = 0.892\
+metaphor: 32 / 32 = 1\
+	gen_motion_metaphors: 20 / 20 = 1\
+	gen_orientation_metaphors: 12 / 12 = 1\
+\
+total: 0.5494152046783626\
+\
+\
+roberta-large-mnli\
+motion: 321 / 360 = 0.892\
+	gen_motion_negative: 108 / 108 = 1\
+	gen_motion_positive: 108 / 108 = 1\
+	gen_non_motion_negative: 50 / 72 = 0.694\
+	gen_non_motion_positive: 55 / 72 = 0.764\
+orientation: 128 / 768 = 0.167\
+	gen_orientation_cardinals_negative: 83 / 336 = 0.247\
+	gen_orientation_cardinals_neutral: 0 / 384 = 0\
+	gen_orientation_cardinals_positive: 45 / 48 = 0.938\
+distance: 1315 / 2260 = 0.582\
+	gen_distance_far_negative: 200 / 200 = 1\
+	gen_distance_far_positive: 130 / 140 = 0.929\
+	gen_distance_nearby_neutral: 2 / 240 = 0.00833\
+	gen_distance_not_touching_neutral: 4 / 480 = 0.00833\
+	gen_distance_touching_negative: 360 / 360 = 1\
+	gen_distance_touching_positive: 309 / 360 = 0.858\
+	gen_distance_transitivity_negative: 310 / 480 = 0.646\
+metaphor: 32 / 32 = 1\
+	gen_motion_metaphors: 20 / 20 = 1\
+	gen_orientation_metaphors: 12 / 12 = 1\
+\
+total: 0.5251461988304094\
+\
+\
+\
+facebook/bart-large-mnli without netural\
+Acc: 0.4763157894736842\
+motion: 334 / 360 = 0.928\
+	gen_motion_negative: 108 / 108 = 1\
+	gen_motion_positive: 108 / 108 = 1\
+	gen_non_motion_negative: 58 / 72 = 0.806\
+	gen_non_motion_positive: 60 / 72 = 0.833\
+orientation: 92 / 768 = 0.12\
+	gen_orientation_cardinals_negative: 51 / 336 = 0.152\
+	gen_orientation_cardinals_neutral: 0 / 384 = 0\
+	gen_orientation_cardinals_positive: 41 / 48 = 0.854\
+distance: 1171 / 2260 = 0.518\
+	gen_distance_far_negative: 169 / 200 = 0.845\
+	gen_distance_far_positive: 125 / 140 = 0.893\
+	gen_distance_nearby_neutral: 0 / 240 = 0\
+	gen_distance_not_touching_neutral: 0 / 480 = 0\
+	gen_distance_touching_negative: 360 / 360 = 1\
+	gen_distance_touching_positive: 297 / 360 = 0.825\
+	gen_distance_transitivity_negative: 220 / 480 = 0.458\
+metaphor: 32 / 32 = 1\
+	gen_motion_metaphors: 20 / 20 = 1\
+	gen_orientation_metaphors: 12 / 12 = 1\
+\
+\
+facebook/bart-large-mnli with netural\
+motion: 322 / 360 = 0.894\
+	gen_motion_negative: 108 / 108 = 1\
+	gen_motion_positive: 108 / 108 = 1\
+	gen_non_motion_negative: 45 / 72 = 0.625\
+	gen_non_motion_positive: 61 / 72 = 0.847\
+orientation: 96 / 768 = 0.125\
+	gen_orientation_cardinals_negative: 48 / 336 = 0.143\
+	gen_orientation_cardinals_neutral: 0 / 384 = 0\
+	gen_orientation_cardinals_positive: 48 / 48 = 1\
+distance: 1276 / 2260 = 0.565\
+	gen_distance_far_negative: 151 / 200 = 0.755\
+	gen_distance_far_positive: 122 / 140 = 0.871\
+	gen_distance_nearby_neutral: 29 / 240 = 0.121\
+	gen_distance_not_touching_neutral: 3 / 480 = 0.00625\
+	gen_distance_touching_negative: 353 / 360 = 0.981\
+	gen_distance_touching_positive: 273 / 360 = 0.758\
+	gen_distance_transitivity_negative: 345 / 480 = 0.719\
+metaphor: 32 / 32 = 1\
+	gen_motion_metaphors: 20 / 20 = 1\
+	gen_orientation_metaphors: 12 / 12 = 1\
+\
+total: 0.5046783625730994\
+\
+\
+\
+distilbert-base-uncased-finetuned-sst-2-english\
+motion: 204 / 360 = 0.567\
+	gen_motion_negative: 103 / 108 = 0.954\
+	gen_motion_positive: 72 / 108 = 0.667\
+	gen_non_motion_negative: 26 / 72 = 0.361\
+	gen_non_motion_positive: 3 / 72 = 0.0417\
+orientation: 123 / 768 = 0.16\
+	gen_orientation_cardinals_negative: 89 / 336 = 0.265\
+	gen_orientation_cardinals_neutral: 0 / 384 = 0\
+	gen_orientation_cardinals_positive: 34 / 48 = 0.708\
+distance: 816 / 2260 = 0.361\
+	gen_distance_far_negative: 96 / 200 = 0.48\
+	gen_distance_far_positive: 0 / 140 = 0\
+	gen_distance_nearby_neutral: 0 / 240 = 0\
+	gen_distance_not_touching_neutral: 0 / 480 = 0\
+	gen_distance_touching_negative: 360 / 360 = 1\
+	gen_distance_touching_positive: 360 / 360 = 1\
+	gen_distance_transitivity_negative: 0 / 480 = 0\
+metaphor: 20 / 32 = 0.625\
+	gen_motion_metaphors: 20 / 20 = 1\
+	gen_orientation_metaphors: 0 / 12 = 0\
+\
+total: 0.3400584795321637\
+\
+\
+\
+BaptisteDoyen/camembert-base-xnli\
+motion: 145 / 360 = 0.403\
+	gen_motion_negative: 0 / 108 = 0\
+	gen_motion_positive: 83 / 108 = 0.769\
+	gen_non_motion_negative: 18 / 72 = 0.25\
+	gen_non_motion_positive: 44 / 72 = 0.611\
+orientation: 323 / 768 = 0.421\
+	gen_orientation_cardinals_negative: 321 / 336 = 0.955\
+	gen_orientation_cardinals_neutral: 0 / 384 = 0\
+	gen_orientation_cardinals_positive: 2 / 48 = 0.0417\
+distance: 792 / 2260 = 0.35\
+	gen_distance_far_negative: 128 / 200 = 0.64\
+	gen_distance_far_positive: 108 / 140 = 0.771\
+	gen_distance_nearby_neutral: 0 / 240 = 0\
+	gen_distance_not_touching_neutral: 0 / 480 = 0\
+	gen_distance_touching_negative: 0 / 360 = 0\
+	gen_distance_touching_positive: 85 / 360 = 0.236\
+	gen_distance_transitivity_negative: 471 / 480 = 0.981\
+metaphor: 10 / 32 = 0.312\
+	gen_motion_metaphors: 4 / 20 = 0.2\
+	gen_orientation_metaphors: 6 / 12 = 0.5\
+\
+total: 0.3713450292397661\
+\
+\
+\
+\
+\
+\
+microsoft/deberta-base-mnli\
+motion: 308 / 360 = 0.856\
+	gen_motion_negative: 104 / 108 = 0.963\
+	gen_motion_positive: 108 / 108 = 1\
+	gen_non_motion_negative: 37 / 72 = 0.514\
+	gen_non_motion_positive: 59 / 72 = 0.819\
+orientation: 210 / 768 = 0.273\
+	gen_orientation_cardinals_negative: 167 / 336 = 0.497\
+	gen_orientation_cardinals_neutral: 0 / 384 = 0\
+	gen_orientation_cardinals_positive: 43 / 48 = 0.896\
+distance: 1286 / 2260 = 0.569\
+	gen_distance_far_negative: 200 / 200 = 1\
+	gen_distance_far_positive: 118 / 140 = 0.843\
+	gen_distance_nearby_neutral: 0 / 240 = 0\
+	gen_distance_not_touching_neutral: 0 / 480 = 0\
+	gen_distance_touching_negative: 360 / 360 = 1\
+	gen_distance_touching_positive: 245 / 360 = 0.681\
+	gen_distance_transitivity_negative: 363 / 480 = 0.756\
+metaphor: 31 / 32 = 0.969\
+	gen_motion_metaphors: 19 / 20 = 0.95\
+	gen_orientation_metaphors: 12 / 12 = 1\
+\
+total: 0.5365497076023392\
+\
+\
+microsoft/deberta-large-mnli\
+motion: 335 / 360 = 0.931\
+	gen_motion_negative: 108 / 108 = 1\
+	gen_motion_positive: 108 / 108 = 1\
+	gen_non_motion_negative: 59 / 72 = 0.819\
+	gen_non_motion_positive: 60 / 72 = 0.833\
+orientation: 96 / 768 = 0.125\
+	gen_orientation_cardinals_negative: 48 / 336 = 0.143\
+	gen_orientation_cardinals_neutral: 0 / 384 = 0\
+	gen_orientation_cardinals_positive: 48 / 48 = 1\
+distance: 1585 / 2260 = 0.701\
+	gen_distance_far_negative: 193 / 200 = 0.965\
+	gen_distance_far_positive: 128 / 140 = 0.914\
+	gen_distance_nearby_neutral: 70 / 240 = 0.292\
+	gen_distance_not_touching_neutral: 91 / 480 = 0.19\
+	gen_distance_touching_negative: 360 / 360 = 1\
+	gen_distance_touching_positive: 279 / 360 = 0.775\
+	gen_distance_transitivity_negative: 464 / 480 = 0.967\
+metaphor: 32 / 32 = 1\
+	gen_motion_metaphors: 20 / 20 = 1\
+	gen_orientation_metaphors: 12 / 12 = 1\
+\
+total: 0.5988304093567252\
+\
+\
+}
