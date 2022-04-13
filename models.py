@@ -39,25 +39,34 @@ def get_auto(model_name, device):
     model = AutoModelForSequenceClassification.from_pretrained(model_name).to(device)
     tokenizer = AutoTokenizer.from_pretrained(model_name)
 
-    def bart_encode(batch_x):
+    def auto_encode(batch_x):
         return tokenizer.batch_encode_plus(batch_x,
                                             truncation='only_first',
                                             return_tensors="pt",
                                             padding=True)
     
-    def bart_run_model(inputs):
+    def auto_run_model(inputs):
         return model(
             input_ids=inputs["input_ids"].to(device),
             attention_mask=inputs["attention_mask"].to(device)
         )[0]
     
-    def bart_decode(outputs):
-        answers = torch.argmax(outputs, axis=1).tolist()
-        def transform_y(y):
-            if y == 0: return "contradiction"
-            elif y == 1: return "neutral"
-            elif y == 2: return "entailment"
-        return [transform_y(y) for y in answers]
+    def auto_decode(outputs):
+        if len(outputs[0]) == 3:
 
-    return bart_run_model, bart_encode, bart_decode
+            answers = torch.argmax(outputs, axis=1).tolist()
+            def transform_y(y):
+                if y == 0: return "contradiction"
+                elif y == 1: return "neutral"
+                elif y == 2: return "entailment"
+            return [transform_y(y) for y in answers]
+
+        elif len(outputs[0]) == 2:
+            answers = torch.argmax(outputs, axis=1).tolist()
+            def transform_y(y):
+                if y == 0: return "contradiction"
+                elif y == 1: return "entailment"
+            return [transform_y(y) for y in answers]
+
+    return auto_run_model, auto_encode, auto_decode
 
