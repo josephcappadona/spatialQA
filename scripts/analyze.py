@@ -1,3 +1,6 @@
+from script_utils import configure_path
+configure_path(__file__)
+
 import os
 import csv
 from collections import Counter, defaultdict

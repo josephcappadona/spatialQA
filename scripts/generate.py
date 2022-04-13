@@ -1,3 +1,6 @@
+from script_utils import configure_path
+configure_path(__file__)
+
 from generators.motion import MotionGenerator
 from generators.orientation import OrientationGenerator
 from generators.distance import DistanceGenerator

@@ -1,3 +1,4 @@
+t5-small
 motion: 280 / 360 = 0.778
 	gen_motion_negative: 107 / 108 = 0.991
 	gen_motion_positive: 108 / 108 = 1
