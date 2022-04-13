@@ -1,0 +1,21 @@
+motion: 308 / 360 = 0.856
+	gen_motion_negative: 104 / 108 = 0.963
+	gen_motion_positive: 108 / 108 = 1
+	gen_non_motion_negative: 37 / 72 = 0.514
+	gen_non_motion_positive: 59 / 72 = 0.819
+orientation: 210 / 768 = 0.273
+	gen_orientation_cardinals_negative: 167 / 336 = 0.497
+	gen_orientation_cardinals_neutral: 0 / 384 = 0
+	gen_orientation_cardinals_positive: 43 / 48 = 0.896
+distance: 1286 / 2260 = 0.569
+	gen_distance_far_negative: 200 / 200 = 1
+	gen_distance_far_positive: 118 / 140 = 0.843
+	gen_distance_nearby_neutral: 0 / 240 = 0
+	gen_distance_not_touching_neutral: 0 / 480 = 0
+	gen_distance_touching_negative: 360 / 360 = 1
+	gen_distance_touching_positive: 245 / 360 = 0.681
+	gen_distance_transitivity_negative: 363 / 480 = 0.756
+metaphor: 31 / 32 = 0.969
+	gen_motion_metaphors: 19 / 20 = 0.95
+	gen_orientation_metaphors: 12 / 12 = 1
+total: 0.5365497076023392
