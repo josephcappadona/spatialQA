@@ -1,9 +1,8 @@
 import os
-from dataset import SpatialNLIDataset
 import torch
 
+from dataset import SpatialNLIDataset
 from evaluation import evaluate
-from analysis import analyze
 from models import get_model
 from utils import clean_model_name
 
