@@ -3,6 +3,9 @@ from random import random
 class BaseGenerator:
 
     reasoning_type = None
+    ENTAILMENT = 'entailment'
+    CONTRADICTION = 'contradiction'
+    NEUTRAL = 'neutral'
 
     names = ['John', 'Jane', 'Tom', 'Alice', 'Bob', 'Sonya']
 
