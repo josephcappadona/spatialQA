@@ -9,15 +9,15 @@ class ContainmentGenerator(BaseGenerator):
 
     reasoning_type = "containment"
 
-    is_in_phrases = {'is in', 'is inside', 'is contained by', 'resides within'}
+    is_in_phrases = {'is in', 'is inside', 'is contained by'}
     contains_phrases = {'contains', 'is holding'}
 
     fits_in_phrases = {'can fit in', 'fits in'}
-    cannot_fit_in_phrases = {'cannot fit in', 'can\'t fit in', 'doesn\'t fit in', 'won\'t fit in'}
+    cannot_fit_in_phrases = {'cannot fit in', 'can\'t fit in', 'doesn\'t fit in'}
     can_contain_phrases = {'can fit', 'fits', 'can hold'}
     cannot_contain_phrases = {'cannot fit', 'cannot hold', 'cannot contain'}
 
-    sm_objects = {'ball', 'block', 'key', 'fork', 'phone'}
+    sm_objects = {'ball', 'block', 'key', 'phone'}
     sm_containers = {'cup', 'bottle', 'small box'}
 
     med_objects = {'toaster', 'television', 'computer'}

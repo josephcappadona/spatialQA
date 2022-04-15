@@ -4,7 +4,7 @@ class BaseGenerator:
 
     reasoning_type = None
 
-    names = ['John', 'Jane', 'Tom', 'Alice', 'Bob', 'Sonya']
+    names = ['John', 'Jane', 'Tom', 'Alice']
 
     def __init__(self, sample=1.0):
         self.sample = sample
