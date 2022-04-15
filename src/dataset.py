@@ -11,11 +11,11 @@ class SpatialNLIDataset:
 
     def batch(self, batch_size=32, drop_last=False):
         cur_batch_x, cur_batch_y, cur_batch_m = [], [], []
-        for p, h, e, r_type, fn_name in self.tsv_reader:
+        for p, h, e, r_type, fn_name, id_ in self.tsv_reader:
             if random() < self.sample:
                 cur_batch_x.append((p, h))
                 cur_batch_y.append(e)
-                cur_batch_m.append((r_type, fn_name))
+                cur_batch_m.append((r_type, fn_name, id_))
             if len(cur_batch_x) == batch_size:
                 yield cur_batch_x, cur_batch_y, cur_batch_m
                 cur_batch_x, cur_batch_y, cur_batch_m = [], [], []

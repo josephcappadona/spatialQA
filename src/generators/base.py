@@ -13,9 +13,9 @@ class BaseGenerator:
         for attr in dir(self):
             if attr.startswith('gen_'):
                 gen_fn = self.__getattribute__(attr)
-                for p, h, e in gen_fn():
+                for p, h, e, id_ in gen_fn():
                     if random() < self.sample:
-                        metadata = (self.reasoning_type, attr)
+                        metadata = (self.reasoning_type, attr[4:], id_)
                         yield p, h, e, metadata
     
     def __iter__(self):

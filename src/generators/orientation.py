@@ -10,7 +10,7 @@ class OrientationGenerator(BaseGenerator):
     cardinals = {'north', 'south', 'east', 'west', 'northeast', 'southeast', 'northwest', 'southwest'}
     #directions = {'above', 'below'}
 
-    def gen_orientation_cardinals_positive(self):
+    def gen_cardinals_positive(self):
         """
         Generates positive textual entailment pairs relating to orientation of the form:
             P: The LOC_1 is CARDINAL_DIR of the LOC_2.
@@ -24,9 +24,9 @@ class OrientationGenerator(BaseGenerator):
             if loc_1 != loc_2:
                 premise = f"The {loc_1} is {cardinal} of the {loc_2}."
                 hypothesis = f"The {loc_2} is {self.opposite_cardinal(cardinal)} of the {loc_1}."
-                yield ( premise, hypothesis, 'entailment' )
+                yield ( premise, hypothesis, "entailment", 0 )
 
-    def gen_orientation_cardinals_negative(self):
+    def gen_cardinals_negative(self):
         """
         Generates negative textual entailment pairs relating to orientation of the form:
             P: The LOC_1 is CARDINAL_DIR of the LOC_2.
@@ -40,9 +40,9 @@ class OrientationGenerator(BaseGenerator):
             if loc_1 != loc_2:
                 premise = f"The {loc_1} is {cardinal_1} of the {loc_2}."
                 for cardinal_2 in self.non_opposite_cardinals(cardinal_1):
-                    yield ( premise, f"The {loc_2} is {cardinal_2} of the {loc_1}.", 'contradiction' )
+                    yield ( premise, f"The {loc_2} is {cardinal_2} of the {loc_1}.", "contradiction", 0 )
 
-    def gen_orientation_cardinals_neutral(self):
+    def gen_cardinals_neutral(self):
         """
         Generates neutral textual entailment pairs relating to orientation of the form:
             P: The LOC_1 is CARDINAL_DIR_1 of the LOC_2.
@@ -57,7 +57,7 @@ class OrientationGenerator(BaseGenerator):
                 premise = f"The {loc_1} is {card_1} of the {loc_2}."
                 for loc_3 in self.locations.difference({ loc_1, loc_2}):
                     for card_2 in self.cardinals:
-                        yield ( premise, f"The {loc_1} is {card_2} of the {loc_3}.", 'neutral' )
+                        yield ( premise, f"The {loc_1} is {card_2} of the {loc_3}.", "neutral", 0 )
         
         # TODO: same as above but for objects left/right on a table
 

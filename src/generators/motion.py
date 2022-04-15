@@ -24,7 +24,7 @@ class MotionGenerator(BaseGenerator):
         for agent, motion, motion_phrase in product(self.names, self.movement_jerund, self.in_motion_phrase):
             premise = f"{agent} is {motion}."
             hypothesis = f"{agent} is {motion_phrase}."
-            yield ( premise, hypothesis, 'entailment' )
+            yield ( premise, hypothesis, "entailment", 0 )
 
     def gen_motion_negative(self):
         """
@@ -41,7 +41,7 @@ class MotionGenerator(BaseGenerator):
 
             premise = f"{agent} is {motion}."
             hypothesis = f"{agent} is {non_motion_phrase}."
-            yield ( premise, hypothesis, 'contradiction' )
+            yield ( premise, hypothesis, "contradiction", 0 )
 
     def gen_motion_neutral(self):
         # TODO: 
@@ -60,7 +60,7 @@ class MotionGenerator(BaseGenerator):
         for agent, not_motion, not_motion_phrase in product(self.names, self.stationary_jerund, self.not_in_motion_phrase):
             premise = f"{agent} is {not_motion}."
             hypothesis = f"{agent} is {not_motion_phrase}."
-            yield ( premise, hypothesis, 'entailment' )
+            yield ( premise, hypothesis, "entailment", 0 )
 
     def gen_non_motion_negative(self):
         """
@@ -75,7 +75,7 @@ class MotionGenerator(BaseGenerator):
         for agent, not_motion, motion in product(self.names, self.stationary_jerund, self.in_motion_phrase):
             premise = f"{agent} is {not_motion}."
             hypothesis = f"{agent} is {motion}."
-            yield ( premise, hypothesis, 'contradiction' )
+            yield ( premise, hypothesis, "contradiction", 0 )
 
     def gen_non_motion_neutral(self):
         # TODO: 

@@ -1,7 +1,6 @@
 import csv
 from sklearn.metrics import accuracy_score as accuracy
-
-results_headers = ['premise', 'hypothesis', 'entailment', 'reasoning_type', 'function_name', 'answer', 'correct']
+from utils import results_headers
 
 def evaluate(ds, run_model, encode_batch, decode_batch, results_fn="results.tsv"):
     # adapted from https://huggingface.co/docs/transformers/model_doc/t5#training
@@ -19,3 +18,4 @@ def evaluate(ds, run_model, encode_batch, decode_batch, results_fn="results.tsv"
 
         for (p, h), e, m, a in zip(batch_x, batch_y, batch_metadata, answers):
             tsv_writer.writerow([p, h, e, *m, a, int(e == a)])
+        

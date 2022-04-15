@@ -1,0 +1,22 @@
+davinci
+motion: 357 / 360 = 0.992
+	gen_motion_negative: 108 / 108 = 1
+	gen_motion_positive: 108 / 108 = 1
+	gen_non_motion_negative: 71 / 72 = 0.986
+	gen_non_motion_positive: 70 / 72 = 0.972
+orientation: 237 / 768 = 0.309
+	gen_orientation_cardinals_negative: 189 / 336 = 0.562
+	gen_orientation_cardinals_neutral: 0 / 384 = 0
+	gen_orientation_cardinals_positive: 48 / 48 = 1
+distance: 1124 / 2260 = 0.497
+	gen_distance_far_negative: 197 / 200 = 0.985
+	gen_distance_far_positive: 123 / 140 = 0.879
+	gen_distance_nearby_neutral: 0 / 240 = 0
+	gen_distance_not_touching_neutral: 0 / 480 = 0
+	gen_distance_touching_negative: 342 / 360 = 0.95
+	gen_distance_touching_positive: 332 / 360 = 0.922
+	gen_distance_transitivity_negative: 130 / 480 = 0.271
+metaphor: 32 / 32 = 1
+	gen_motion_metaphors: 20 / 20 = 1
+	gen_orientation_metaphors: 12 / 12 = 1
+total: 0.5116959064327485
