@@ -18,7 +18,7 @@ class ContainmentGenerator(BaseGenerator):
 
     object = {'the apples', 'puppies', 'some basketballs'}
     container = {'the bucket', 'a bag', 'the car', 'a car'}
-
+    emotion = {'anger', 'sadness', 'regret', 'joy'}
 
     def gen_movement_into_container(self):
         """
@@ -116,12 +116,35 @@ class ContainmentGenerator(BaseGenerator):
             yield ( premise, f"{object} are {contain_rel} {container}.", self.ENTAILMENT)
             yield ( premise, f"{container} is {contain_rel} {object}.", self.CONTRADICTION)
 
-    def metaphor_contain_emotions(self):
+    def gen_metaphor_contain_emotions(self):
         """
         P: Tom could not contain his joy.
         {agent} could not contain {self's} {emotion}.	{agent} is a container.
         """
-        pass
+        for agent, emotion, contain_rel in product(self.agent, self.emotion, self.contain_rel):
+            premise = f"{agent} could not contain their {emotion}."
+            yield ( premise, f"{emotion} is physically {contain_rel} {agent}.", self.CONTRADICTION)
+            yield ( premise, f"{agent} is physically {contain_rel} {emotion}.", self.CONTRADICTION)
+
+    def gen_filled_with(self):
+        """
+        P: The basket is filled with apples.
+        H1: Apples are on the inside of the basket.
+        H2: The basket is on the inside of apples.
+        """
+        for container, object, contain_rel in product(self.container, self.object, self.contain_rel):
+            premise = f"{container} is filled with {object}."
+            yield ( premise, f"{object} are physically {contain_rel} {container}.", self.ENTAILMENT)
+            yield ( premise, f"{container} is physically {contain_rel} {object}.", self.CONTRADICTION)
+
+    def gen_metaphor_filled_with(self):
+        """
+        {agent} was filled with {emotion}.	{agent} is a container.
+        """
+        for agent, emotion, contain_rel in product(self.agent, self.emotion, self.contain_rel):
+            premise = f"{agent} is filled with {emotion}."
+            yield ( premise, f"{emotion} is physically {contain_rel} {agent}.", self.CONTRADICTION)
+            yield ( premise, f"{agent} is physically {contain_rel} {emotion}.", self.CONTRADICTION)
 
     def gen_object_in_container(self):
         """
@@ -148,22 +171,6 @@ class ContainmentGenerator(BaseGenerator):
             yield ( premise, f"{state} is physically {contain_rel} {agent}.", self.CONTRADICTION)
 
 
-    def gen_filled_with(self):
-        """
-        P: The basket is filled with apples.
-        H1: Apples are on the inside of the basket.
-        H2: The basket is on the inside of apples.
-        """
-
-    def gen_metaphor_filled_with(self):
-        """
-        {agent} was filled with {emotion}.	{agent} is a container.
-        """
-        emotion = {'anger', 'sadness', 'regret'}
-        for agent, emotion, contain_rel in product(self.agent, emotion, self.contain_rel):
-            premise = f"{agent} is filled with {emotion}."
-            yield ( premise, f"{emotion} is physically {contain_rel} {agent}.", self.CONTRADICTION)
-            yield ( premise, f"{agent} is physically {contain_rel} {emotion}.", self.CONTRADICTION)
 
 
         """
@@ -173,10 +180,6 @@ class ContainmentGenerator(BaseGenerator):
 
         """
         {subtype} falls into the category of {supertype}.	{subtype} is within/contained in {supertype}.
-        """
-
-        """
-        There is {material} in this/that {object}.	{material} is located within {object}.
         """
 
 
