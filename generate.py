@@ -1,3 +1,4 @@
+from generators.containment import ContainmentGenerator
 from generators.motion import MotionGenerator
 from generators.orientation import OrientationGenerator
 from generators.distance import DistanceGenerator
@@ -17,7 +18,7 @@ if __name__ == '__main__':
         tsv_writer.writerow(data_headers)
         
         motion_df = append_to_tsv(tsv_writer, MotionGenerator())
+        containment_df = append_to_tsv(tsv_writer, ContainmentGenerator())
         orientation_df = append_to_tsv(tsv_writer, OrientationGenerator())
         distance_df = append_to_tsv(tsv_writer, DistanceGenerator())
         metaphor_df = append_to_tsv(tsv_writer, MetaphorGenerator())
-        
