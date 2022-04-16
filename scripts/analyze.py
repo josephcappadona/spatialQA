@@ -22,11 +22,11 @@ def analyze(model_name):
     results_filepath = os.path.join(results_dir, results_filename)
 
     analysis_dir = 'analysis'
-    analysis_filename = f'analysis-{model_name}.txt'
+    analysis_filename = f'analysis-{model_name}.tsv'
     analysis_filepath = os.path.join(analysis_dir, analysis_filename)
 
     summary_dir = 'summary'
-    summary_filename = f'summary-{model_name}.txt'
+    summary_filename = f'summary-{model_name}.tsv'
     summary_filepath = os.path.join(summary_dir, summary_filename)
 
     os.makedirs(analysis_dir, exist_ok=True)
