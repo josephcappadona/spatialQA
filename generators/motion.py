@@ -12,6 +12,8 @@ class MotionGenerator(BaseGenerator):
     not_in_motion_phrase = ['not moving', 'not in motion', 'stationary']
     location_phrase = ['the market', 'school', 'a restaurant']
 
+    action_phrase = ['leave', 'do work later', 'eat lunch', 'be sad']
+    state_phrase = ['crazy', 'wild']
     def gen_motion_positive(self):
         """
         Generates positive textual entailment pairs relating to motion of the form:
@@ -165,3 +167,15 @@ class MotionGenerator(BaseGenerator):
             premise = f"{agent} came to {location}."
             hypothesis = f"{agent} was {motion}."
             yield ( premise, hypothesis, self.CONTRADICTION)
+
+    def gen_metaphor_go_to_action(self):
+        for agent, action, motion in product(self.names, self.action_phrase, self.in_motion_phrase):
+            premise = f"{agent} is going to {action}."
+            hypothesis = f"{agent} is {motion}."
+            yield ( premise, hypothesis, self.CONTRADICTION )
+
+    def gen_metaphor_went_state(self):
+        for agent, action, motion in product(self.names, self.state_phrase, self.in_motion_phrase):
+            premise = f"{agent} went {action}."
+            hypothesis = f"{agent} is {motion}."
+            yield ( premise, hypothesis, self.CONTRADICTION )
