@@ -1,6 +1,7 @@
 from script_utils import configure_path
 configure_path(__file__)
 
+from generators.containment import ContainmentGenerator
 from generators.motion import MotionGenerator
 from generators.orientation import OrientationGenerator
 from generators.distance import DistanceGenerator
@@ -23,4 +24,3 @@ if __name__ == '__main__':
         distance_df = append_generator_to_tsv(tsv_writer, DistanceGenerator())
         containment_df = append_generator_to_tsv(tsv_writer, ContainmentGenerator())
         metaphor_df = append_generator_to_tsv(tsv_writer, MetaphorGenerator())
-        

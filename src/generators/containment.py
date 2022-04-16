@@ -227,4 +227,3 @@ class ContainmentGenerator(BaseGenerator):
             for out_rel in self.outside_rels:
                 yield ( premise, f"{agent.title()} is {out_rel} the {containing_body}.", self.CONTRADICTION, 2 )
                 yield ( premise, f"The {containing_body} is {out_rel} {agent}.", self.ENTAILMENT, 3 )
-
