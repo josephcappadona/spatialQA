@@ -7,8 +7,11 @@ class OrientationGenerator(BaseGenerator):
     reasoning_type = 'orientation'
 
     locations = {'theater', 'school', 'park'}
-    cardinals = {'north', 'south', 'east', 'west'}
+    cardinals = {'north', 'south', 'east', 'west'} #'northeast', 'northwest', 'southeast', 'southwest'}
+    above_phrases = {'above', 'on top of'}
+    below_phrases = {'below', 'underneath'}
     # TODO: directions = {'above', 'below'}
+    # directions = {'left', 'right'}
 
     def gen_cardinals_positive(self):
         """
@@ -64,9 +67,13 @@ class OrientationGenerator(BaseGenerator):
 
     def opposite_cardinal(self, dir):
         if dir == 'north': return 'south'
-        if dir == 'south': return 'north'
-        if dir == 'east': return 'west'
-        if dir == 'west': return 'east'
+        elif dir == 'south': return 'north'
+        elif dir == 'east': return 'west'
+        elif dir == 'west': return 'east'
+        elif dir == 'northeast': return 'southwest'
+        elif dir == 'southeast': return 'northwest'
+        elif dir == 'northwest': return 'southeast'
+        elif dir == 'southwest': return 'northeast'
 
     def non_opposite_cardinals(self, cardinal):
         opposite_cardinal = self.opposite_cardinal(cardinal)

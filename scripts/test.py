@@ -14,7 +14,7 @@ if __name__ == '__main__':
 
     from sys import argv
     model_name = argv[1]
-    sample = 1.0
+    sample = 0.1
 
     results_dir = 'results'
     results_filename = f"results-{clean_model_name(model_name)}.tsv"

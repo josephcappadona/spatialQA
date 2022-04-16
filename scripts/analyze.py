@@ -3,6 +3,7 @@ configure_path(__file__)
 
 import os
 import csv
+import statistics
 from collections import Counter, defaultdict
 from utils import clean_model_name
 from pprint import pprint
@@ -23,70 +24,64 @@ def analyze(model_name):
     analysis_dir = 'analysis'
     analysis_filename = f'analysis-{model_name}.txt'
     analysis_filepath = os.path.join(analysis_dir, analysis_filename)
+
+    summary_dir = 'summary'
+    summary_filename = f'summary-{model_name}.txt'
+    summary_filepath = os.path.join(summary_dir, summary_filename)
+
     os.makedirs(analysis_dir, exist_ok=True)
+    os.makedirs(summary_dir, exist_ok=True)
     
-    with open(results_filepath, 'r', encoding='utf8') as tsv_file:
+    with open(results_filepath, 'r', encoding='utf8') as results_file:
+
+        results_reader = csv.reader(results_file, delimiter='\t', lineterminator='\n')
+        headers = next(results_reader)
 
         with open(analysis_filepath, 'w+t') as analysis_file:
 
-            tsv_reader = csv.reader(tsv_file, delimiter='\t', lineterminator='\n')
-            headers = next(tsv_reader)
+            analysis_headers = ["reasoning_type", "fn_name", "test_id", "num_tests", "num_correct", "test_acc"]
+            analysis_writer = csv.writer(analysis_file, delimiter='\t', lineterminator='\n')
+            analysis_writer.writerow(analysis_headers)
 
-            total_counter = 0
-            correct_counter = 0
-            category_total_counter = Counter()
-            category_correct_counter = Counter()
-            subcategory_total_counter = defaultdict(lambda: Counter())
-            subcategory_correct_counter = defaultdict(lambda: Counter())
-            uid_total_counter = defaultdict(lambda: defaultdict(lambda: Counter()))
-            uid_correct_counter = defaultdict(lambda: defaultdict(lambda: Counter()))
+            with open(summary_filepath, 'w+t') as summary_file:
 
-            for p, h, e, r_type, fn_name, id_, a, score in tsv_reader:
-                score = int(score)
-                total_counter += 1
-                correct_counter += score
-                category_total_counter[r_type] += 1
-                category_correct_counter[r_type] += score
-                subcategory_total_counter[r_type][fn_name] += 1
-                subcategory_correct_counter[r_type][fn_name] += score
-                uid_total_counter[r_type][fn_name][id_] += 1
-                uid_correct_counter[r_type][fn_name][id_] += score
+                summary_headers = ["reasoning_type", "num_tests", "acc_wo_partial_credit", "acc_w_partial_credit", "stdev_acc_w_partial_credit"]
+                summary_writer = csv.writer(summary_file, delimiter='\t', lineterminator='\n')
+                summary_writer.writerow(summary_headers)
 
-            # for each reasoning category (motion, distance, etc.)
-            for r_type in category_correct_counter:
-                r_score = 0
-                cat_correct = category_correct_counter[r_type]
-                cat_acc = category_correct_counter[r_type] / category_total_counter[r_type]
-                cat_total = category_total_counter[r_type]
-                analysis.append(f'{r_type}: {cat_correct} / {cat_total} = {cat_acc:.3g}')
+                test_total_counter = defaultdict(lambda: defaultdict(lambda: Counter()))
+                test_correct_counter = defaultdict(lambda: defaultdict(lambda: Counter()))
+                
+                for p, h, e, r_type, fn_name, tid, a, score in results_reader:
+                    score = int(score)
+                    test_total_counter[r_type][fn_name][tid] += 1
+                    test_correct_counter[r_type][fn_name][tid] += score
 
-                # for each sub-category (motion positive, motion negative, etc.)
-                for fn_name in subcategory_total_counter[r_type]:
-                    subcat_acc = subcategory_correct_counter[r_type][fn_name] / subcategory_total_counter[r_type][fn_name]
+                # for each reasoning category (motion, distance, etc.)
+                for r_type in test_correct_counter:
+                    test_accs = []
 
-                    uid_accs = []
-                    for id_ in sorted(list(uid_correct_counter[r_type][fn_name].keys())):
-                        uid_acc = uid_correct_counter[r_type][fn_name][id_] / uid_total_counter[r_type][fn_name][id_]
-                        uid_accs.append(uid_acc)
-                    avg_uid_acc = sum(uid_accs) / len(uid_accs)
-                    analysis.append(f'\t{fn_name}: avg={avg_uid_acc:.3g}; {subcategory_correct_counter[r_type][fn_name]} / {subcategory_total_counter[r_type][fn_name]} = {subcat_acc:.3g}')
-                    sum_perfect = sum([int(uid_acc) for uid_acc in uid_accs])
-                    subcat_scores.append((f"{r_type}_{fn_name}", uid_accs, avg_uid_acc))
-                        
-                    for id_ in sorted(list(uid_correct_counter[r_type][fn_name].keys())):
-                        uid_correct = uid_correct_counter[r_type][fn_name][id_]
-                        uid_total = uid_total_counter[r_type][fn_name][id_]
-                        uid_acc = uid_correct / uid_total
-                        analysis.append(f'\t\t{id_}: {uid_correct_counter[r_type][fn_name][id_]} / {uid_total_counter[r_type][fn_name][id_]} = {uid_acc:.3g}')
+                    # for each sub-category (motion positive, motion negative, etc.)
+                    for fn_name in test_correct_counter[r_type]:
 
+                        # for each test id ()
+                        for tid in sorted(list(test_correct_counter[r_type][fn_name].keys())):
+                            test_total = test_total_counter[r_type][fn_name][tid]
+                            test_correct = test_correct_counter[r_type][fn_name][tid]
+                            test_acc = test_correct / test_total
+                            test_accs.append(test_acc)
+                            analysis_writer.writerow((r_type, fn_name, tid, test_total, test_correct, test_acc))
+                    
+                    num_tests = len(test_accs)
+                    num_perfect = sum([int(uid_acc) for uid_acc in test_accs])
+                    perfect_acc = num_perfect / len(test_accs)
 
-                        
-            analysis.append(f'total: {correct_counter / total_counter}')
+                    avg_test_acc = sum(test_accs) / len(test_accs)
+                    stdev_test_acc = statistics.pstdev(test_accs)
 
-            analysis_text = '\n'.join(analysis)
-            analysis_file.write(analysis_text)
-            print(analysis_text)
-            pprint(subcat_scores)
+                    summary_writer.writerow((r_type, num_tests, perfect_acc, avg_test_acc, stdev_test_acc))
+
+                #pprint(subcat_scores)
 
 
 if __name__ == '__main__':

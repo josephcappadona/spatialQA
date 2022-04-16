@@ -1,5 +1,4 @@
 import csv
-from sklearn.metrics import accuracy_score as accuracy
 from utils import results_headers
 
 def evaluate(ds, run_model, encode_batch, decode_batch, results_fn="results.tsv"):
@@ -17,5 +16,5 @@ def evaluate(ds, run_model, encode_batch, decode_batch, results_fn="results.tsv"
         answers = decode_batch(outputs)
 
         for (p, h), e, m, a in zip(batch_x, batch_y, batch_metadata, answers):
-            tsv_writer.writerow([p, h, e, *m, a, int(e == a)])
+            tsv_writer.writerow([p, h, e, *m, a, int(a in e)])
         

@@ -1,8 +1,8 @@
-from transformers import T5Tokenizer, T5ForConditionalGeneration, AutoModelForSequenceClassification, AutoTokenizer
+from transformers import T5Tokenizer, T5ForConditionalGeneration, AutoModelForCausalLM, AutoModelForSequenceClassification, AutoTokenizer
 import torch
 import os
 import openai
-from utils import gpt3_prompt_template, transform_gpt3_model_name
+from utils import few_shot_prompt_template, transform_gpt3_model_name
 
 
 
@@ -10,14 +10,14 @@ def get_model(model_name, device):
     if 't5' in model_name:
         return get_t5(model_name, device)
 
+    elif 'mnli' in model_name.lower():
+        return get_mnli(model_name, device)
+
     elif ('ada' in model_name or 
             'babbage' in model_name or 
             'curie' in model_name or 
             'davinci' in model_name):
         return get_gpt3(model_name)
-
-    else:
-        return get_auto(model_name, device)
 
 
 def get_t5(model_name, device):
@@ -43,7 +43,7 @@ def get_t5(model_name, device):
         return tokenizer.batch_decode(outputs, skip_special_tokens=True)
 
     return t5_run_model, t5_encode, t5_decode
-
+    
 
 openai.organization = "org-IISEC8WXjZjP5AMr5pepYRVs"
 openai.api_key = os.getenv("OPENAI_API_KEY")
@@ -53,7 +53,7 @@ def get_gpt3(model_name):
     api_model_name = transform_gpt3_model_name(model_name)
 
     def gpt3_encode(batch_x):
-        transform_x = lambda x: gpt3_prompt_template.format(premise=x[0], hypothesis=x[1])
+        transform_x = lambda x: few_shot_prompt_template.format(premise=x[0], hypothesis=x[1])
         return [transform_x(x) for x in batch_x]
     
     def gpt3_run_model(inputs):
@@ -81,39 +81,49 @@ def get_gpt3(model_name):
     return gpt3_run_model, gpt3_encode, gpt3_decode
     
 
-def get_auto(model_name, device):
+def get_mnli(model_name, device):
     
     model = AutoModelForSequenceClassification.from_pretrained(model_name).to(device)
     tokenizer = AutoTokenizer.from_pretrained(model_name)
 
-    def auto_encode(batch_x):
+    def mnli_encode(batch_x):
         return tokenizer.batch_encode_plus(batch_x,
                                             truncation="only_first",
                                             return_tensors="pt",
                                             padding=True)
     
-    def auto_run_model(inputs):
+    def mnli_run_model(inputs):
         return model(
             input_ids=inputs["input_ids"].to(device),
             attention_mask=inputs["attention_mask"].to(device)
         )[0]
     
-    def auto_decode(outputs):
-        if len(outputs[0]) == 3:
+    def mnli_decode(outputs):
 
-            answers = torch.argmax(outputs, axis=1).tolist()
+        answers = torch.argmax(outputs, axis=1).tolist()
+        if "roberta-large-mnli" == model_name:
             def transform_y(y):
                 if y == 0: return "contradiction"
                 elif y == 1: return "neutral"
                 elif y == 2: return "entailment"
-            return [transform_y(y) for y in answers]
-
-        elif len(outputs[0]) == 2:
-            answers = torch.argmax(outputs, axis=1).tolist()
+        elif "textattack/xlnet-base-cased-MNLI" == model_name:
             def transform_y(y):
                 if y == 0: return "contradiction"
                 elif y == 1: return "entailment"
-            return [transform_y(y) for y in answers]
+                elif y == 2: return "neutral"
+        elif "anirudh21/albert-large-v2-finetuned-mnli" == model_name:
+            def transform_y(y):
+                if y == 0: return "entailment"
+                elif y == 1: return "neutral"
+                elif y == 2: return "contradiction"
+        elif "microsoft/deberta-large-mnli" == model_name:
+            def transform_y(y):
+                if y == 0: return "contradiction"
+                elif y == 1: return "neutral"
+                elif y == 2: return "entailment"
+        else:
+            raise ValueError(f"mnli model '{model_name}' not recognized/supported")
+        return [transform_y(y) for y in answers]
 
-    return auto_run_model, auto_encode, auto_decode
+    return mnli_run_model, mnli_encode, mnli_decode
 
