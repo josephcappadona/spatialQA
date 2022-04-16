@@ -32,3 +32,4 @@ Currently only T5, BART, and RoBERTa are supported.
 * Add more models (GPT-3, UnifiedQAv2)
 * Refactor generation to make it simpler and more scalable
 * Add more examples
+* Add support for multiple correct answers (e.g., neutral or entailment)

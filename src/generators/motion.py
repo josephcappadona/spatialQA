@@ -6,48 +6,36 @@ class MotionGenerator(BaseGenerator):
 
     reasoning_type = 'motion'
 
-    movement_jerund = ['running', 'sprinting', 'jogging', 'walking', 'jumping', 'swimming']
-    stationary_jerund = ['standing', 'sitting', 'laying down', 'sleeping']
-    in_motion_phrase = ['moving', 'in motion', 'not stationary']
-    not_in_motion_phrase = ['not moving', 'not in motion', 'stationary']
+    movement_jerund = {'running', 'sprinting', 'jogging', 'walking', 'jumping', 'swimming'}
+    in_motion_phrase = {'moving', 'in motion', 'not stationary'}
 
-    def gen_motion_positive(self):
+    stationary_jerund = {'standing', 'sitting', 'laying down', 'sleeping'}
+    not_in_motion_phrase = {'not moving', 'not in motion', 'stationary'}
+
+    neutral_phrase = {'thinking', 'ruminating', 'brainstorming'}
+
+    def gen_motion_one_hop_jerund(self):
         """
-        Generates positive textual entailment pairs relating to motion of the form:
             P: AGENT is MOTION
-            H: AGENT is MOTION_PHRASE
-
-        For example:
-            P: John is running.
-            H: John is in motion.
+            H1: AGENT is MOTION_PHRASE (E)
+            H2: AGENT is NON_MOTON_PHRASE (C)
         """
-        for agent, motion, motion_phrase in product(self.names, self.movement_jerund, self.in_motion_phrase):
-            premise = f"{agent} is {motion}."
-            hypothesis = f"{agent} is {motion_phrase}."
-            yield ( premise, hypothesis, 'entailment' )
+        for name, motion in product(self.names, self.movement_jerund):
+            premise = f"{name} is {motion}."
 
-    def gen_motion_negative(self):
-        """
-        Generates negative textual entailment pairs relating to motion of the form:
-            P: AGENT is MOTION
-            H: AGENT is NON_MOTION_PHRASE
+            for motion_phrase in self.in_motion_phrase:
+                hypothesis = f"{name} is {motion_phrase}."
+                yield ( premise, hypothesis, self.ENTAILMENT, 0 )
 
-        For example:
-            P: John is running.
-            H: John is stationary.
-        """
-        for agent, motion, non_motion_phrase \
-            in product(self.names, self.movement_jerund, self.not_in_motion_phrase):
+            for non_motion_phrase in self.not_in_motion_phrase:
+                hypothesis = f"{name} is {non_motion_phrase}."
+                yield ( premise, hypothesis, self.CONTRADICTION, 1 )
 
-            premise = f"{agent} is {motion}."
-            hypothesis = f"{agent} is {non_motion_phrase}."
-            yield ( premise, hypothesis, 'contradiction' )
+            for neutral_phrase in self.neutral_phrase:
+                hypothesis = f"{name} is {neutral_phrase}."
+                yield ( premise, hypothesis, self.NEUTRAL, 2 )
 
-    def gen_motion_neutral(self):
-        # TODO: 
-        return []
-
-    def gen_non_motion_positive(self):
+    def gen_non_motion_one_hop_jerund(self):
         """
         Generates positive textual entailment pairs relating to non-motion of the form:
             P: AGENT is NON_MOTION
@@ -57,26 +45,56 @@ class MotionGenerator(BaseGenerator):
             P: John is laying down.
             H: John is stationary.
         """
-        for agent, not_motion, not_motion_phrase in product(self.names, self.stationary_jerund, self.not_in_motion_phrase):
-            premise = f"{agent} is {not_motion}."
-            hypothesis = f"{agent} is {not_motion_phrase}."
-            yield ( premise, hypothesis, 'entailment' )
+        for name, not_motion in product(self.names, self.stationary_jerund):
 
-    def gen_non_motion_negative(self):
-        """
-        Generates negative textual entailment pairs relating to non-motion of the form:
-            P: AGENT is NON_MOTION
-            H: AGENT is MOTION_PHRASE
+            premise = f"{name} is {not_motion}."
 
-        For example:
-            P: John is laying down.
-            H: John is in motion.
-        """
-        for agent, not_motion, motion in product(self.names, self.stationary_jerund, self.in_motion_phrase):
-            premise = f"{agent} is {not_motion}."
-            hypothesis = f"{agent} is {motion}."
-            yield ( premise, hypothesis, 'contradiction' )
+            for not_motion_phrase in self.not_in_motion_phrase:
+                hypothesis = f"{name} is {not_motion_phrase}."
+                yield ( premise, hypothesis, self.ENTAILMENT, 0 )
 
-    def gen_non_motion_neutral(self):
-        # TODO: 
-        return []
+            for motion in self.in_motion_phrase:
+                hypothesis = f"{name} is {motion}."
+                yield ( premise, hypothesis, self.CONTRADICTION, 1 )
+
+            for neutral_phrase in self.neutral_phrase:
+                hypothesis = f"{name} is {neutral_phrase}."
+                yield ( premise, hypothesis, self.NEUTRAL, 2 )
+
+    def gen_motion_one_hop(self):
+
+        for name, motion_1 in product(self.names, self.in_motion_phrase):
+
+            premise = f"{name} is {motion_1}."
+
+            for motion_2 in self.in_motion_phrase:
+                if motion_1 != motion_2:
+                    hypothesis = f"{name} is {motion_2}."
+                    yield ( premise, hypothesis, self.ENTAILMENT, 0 )
+
+            for not_motion in self.not_in_motion_phrase:
+                hypothesis = f"{name} is {not_motion}."
+                yield ( premise, hypothesis, self.CONTRADICTION, 1 )
+
+            for neutral_phrase in self.neutral_phrase:
+                hypothesis = f"{name} is {neutral_phrase}."
+                yield ( premise, hypothesis, self.NEUTRAL, 2 )
+
+    def gen_non_motion_one_hop(self):
+
+        for name, not_motion_1 in product(self.names, self.not_in_motion_phrase):
+
+            premise = f"{name} is {not_motion_1}."
+
+            for not_motion_2 in self.not_in_motion_phrase:
+                if not_motion_1 != not_motion_2:
+                    hypothesis = f"{name} is {not_motion_2}."
+                    yield ( premise, hypothesis, self.ENTAILMENT, 0 )
+
+            for motion in self.in_motion_phrase:
+                hypothesis = f"{name} is {motion}."
+                yield ( premise, hypothesis, self.CONTRADICTION, 1 )
+
+            for neutral_phrase in self.neutral_phrase:
+                hypothesis = f"{name} is {neutral_phrase}."
+                yield ( premise, hypothesis, self.NEUTRAL, 2 )
