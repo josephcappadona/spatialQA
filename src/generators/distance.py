@@ -28,9 +28,9 @@ class DistanceGenerator(BaseGenerator):
         for obj_1, touch_rel, near_rel, obj_2 in product(self.objects, self.touching, self.nearby, self.objects):
             if obj_1 != obj_2:
                 premise = f"The {obj_1} is {touch_rel} the {obj_2}."
-                yield ( premise, f"The {obj_2} is {touch_rel} the {obj_1}.", "entailment", 0 )
-                yield ( premise, f"The {obj_1} is {near_rel} the {obj_2}.", "entailment", 1 )
-                yield ( premise, f"The {obj_2} is {near_rel} the {obj_1}.", "entailment", 2 )
+                yield ( premise, f"The {obj_2} is {touch_rel} the {obj_1}.", self.ENTAILMENT, 0 )
+                yield ( premise, f"The {obj_1} is {near_rel} the {obj_2}.", self.ENTAILMENT, 1 )
+                yield ( premise, f"The {obj_2} is {near_rel} the {obj_1}.", self.ENTAILMENT, 2 )
 
 
     def gen_nearby_neutral(self):
@@ -48,8 +48,8 @@ class DistanceGenerator(BaseGenerator):
         for obj_1, touch_rel, near_rel, obj_2 in product(self.objects, self.touching, self.nearby, self.objects):
             if obj_1 != obj_2:
                 premise = f"The {obj_1} is {near_rel} the {obj_2}."
-                yield ( premise, f"The {obj_1} is {touch_rel} the {obj_2}.", "neutral", 0 )
-                yield ( premise, f"The {obj_2} is {touch_rel} the {obj_1}.", "neutral", 1 )
+                yield ( premise, f"The {obj_1} is {touch_rel} the {obj_2}.", self.NEUTRAL, 0 )
+                yield ( premise, f"The {obj_2} is {touch_rel} the {obj_1}.", self.NEUTRAL, 1 )
 
 
     def gen_touching_negative(self):
@@ -69,9 +69,9 @@ class DistanceGenerator(BaseGenerator):
         for obj_1, touch_rel, near_rel, obj_2 in product(self.objects, self.touching, self.nearby, self.objects):
             if obj_1 != obj_2:
                 premise = f"The {obj_1} is {touch_rel} the {obj_2}."
-                yield ( premise, f"The {obj_2} is not {touch_rel} the {obj_1}.", "contradiction", 0 )
-                yield ( premise, f"The {obj_1} is not {near_rel} the {obj_2}.", "contradiction", 1 )
-                yield ( premise, f"The {obj_2} is not {near_rel} the {obj_1}.", "contradiction", 2 )
+                yield ( premise, f"The {obj_2} is not {touch_rel} the {obj_1}.", self.CONTRADICTION, 0 )
+                yield ( premise, f"The {obj_1} is not {near_rel} the {obj_2}.", self.CONTRADICTION, 1 )
+                yield ( premise, f"The {obj_2} is not {near_rel} the {obj_1}.", self.CONTRADICTION, 2 )
 
 
     def gen_not_touching_neutral(self):
@@ -97,10 +97,10 @@ class DistanceGenerator(BaseGenerator):
                 hypothesis_2 = f"The {obj_1} is not {near_rel} the {obj_2}."
                 hypothesis_3 = f"The {obj_2} is {near_rel} the {obj_1}."
                 hypothesis_4 = f"The {obj_2} is not {near_rel} the {obj_1}."
-                yield ( premise, hypothesis_1, "neutral", 0 )
-                yield ( premise, hypothesis_2, "neutral", 1 )
-                yield ( premise, hypothesis_3, "neutral", 2 )
-                yield ( premise, hypothesis_4, "neutral", 3 )
+                yield ( premise, hypothesis_1, self.NEUTRAL, 0 )
+                yield ( premise, hypothesis_2, self.NEUTRAL, 1 )
+                yield ( premise, hypothesis_3, self.NEUTRAL, 2 )
+                yield ( premise, hypothesis_4, self.NEUTRAL, 3 )
 
     def gen_far_positive(self):
         """
@@ -120,12 +120,12 @@ class DistanceGenerator(BaseGenerator):
             if obj_1 != obj_2:
                 premise = f"The {obj_1} is far from the {obj_2}."
                 hypothesis_1 = f"The {obj_2} is far from the {obj_1}."
-                yield ( premise, hypothesis_1, "entailment", 0 )
+                yield ( premise, hypothesis_1, self.ENTAILMENT, 0 )
                 for near_rel in self.nearby:
                     hypothesis_2 = f"The {obj_1} is not {near_rel} the {obj_2}."
                     hypothesis_3 = f"The {obj_2} is not {near_rel} the {obj_1}."
-                    yield ( premise, hypothesis_2, "entailment", 1 )
-                    yield ( premise, hypothesis_3, "entailment", 2 )
+                    yield ( premise, hypothesis_2, self.ENTAILMENT, 1 )
+                    yield ( premise, hypothesis_3, self.ENTAILMENT, 2 )
 
     def gen_far_negative(self):
         """
@@ -147,14 +147,14 @@ class DistanceGenerator(BaseGenerator):
                 for near_rel in self.nearby:
                     hypothesis_1 = f"The {obj_1} is {near_rel} the {obj_2}."
                     hypothesis_2 = f"The {obj_2} is {near_rel} the {obj_1}."
-                    yield ( premise, hypothesis_1, "contradiction", 0 )
-                    yield ( premise, hypothesis_2, "contradiction", 1 )
+                    yield ( premise, hypothesis_1, self.CONTRADICTION, 0 )
+                    yield ( premise, hypothesis_2, self.CONTRADICTION, 1 )
 
                 for touch_rel in self.touching:
                     hypothesis_3 = f"The {obj_1} is {touch_rel} the {obj_2}."
                     hypothesis_4 = f"The {obj_2} is {touch_rel} the {obj_1}."
-                    yield ( premise, hypothesis_3, "contradiction", 2 )
-                    yield ( premise, hypothesis_4, "contradiction", 3 )
+                    yield ( premise, hypothesis_3, self.CONTRADICTION, 2 )
+                    yield ( premise, hypothesis_4, self.CONTRADICTION, 3 )
 
     def gen_transitivity_negative(self):
         """
@@ -171,4 +171,4 @@ class DistanceGenerator(BaseGenerator):
             if obj_1 != obj_2 and obj_1 != obj_3 and obj_2 != obj_3:
                 premise = f"The {obj_1} is {touch_rel_1} the {obj_2} and the {obj_2} is {touch_rel_2} the {obj_3}."
                 hypothesis = f"The {obj_1} is {touch_rel_3} the {obj_3}."
-                yield ( premise, hypothesis, 'contradiction', 0 )
+                yield ( premise, hypothesis, self.CONTRADICTION, 0 )
