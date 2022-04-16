@@ -10,6 +10,7 @@ class MotionGenerator(BaseGenerator):
     stationary_jerund = ['standing', 'sitting', 'laying down', 'sleeping']
     in_motion_phrase = ['moving', 'in motion', 'not stationary']
     not_in_motion_phrase = ['not moving', 'not in motion', 'stationary']
+    location_phrase = ['the market', 'school', 'a restaurant']
 
     def gen_motion_positive(self):
         """
@@ -80,3 +81,87 @@ class MotionGenerator(BaseGenerator):
     def gen_non_motion_neutral(self):
         # TODO: 
         return []
+
+    def gen_go_present_motion_positive(self):
+        """
+        P: AGENT is going to LOCATION.
+        H: AGENT is {MOTION_PHRASE}.
+        """
+
+        for agent, location, motion in product(self.names, self.location_phrase, self.in_motion_phrase):
+            premise = f"{agent} is going to {location}."
+            hypothesis = f"{agent} is {motion}."
+            yield ( premise, hypothesis, self.ENTAILMENT)
+
+    def gen_go_present_motion_negative(self):
+        """
+        P: AGENT is going to LOCATION.
+        H: AGENT is NON_MOTION_PHRASE.
+        """
+
+        for agent, location, motion in product(self.names, self.location_phrase, self.not_in_motion_phrase):
+            premise = f"{agent} is going to {location}."
+            hypothesis = f"{agent} is {motion}."
+            yield ( premise, hypothesis, self.CONTRADICTION )
+
+    def gen_go_past_motion_positive(self):
+        """
+        P: AGENT is going to LOCATION.
+        H: AGENT is {MOTION_PHRASE}.
+        """
+
+        for agent, location, motion in product(self.names, self.location_phrase, self.in_motion_phrase):
+            premise = f"{agent} went to {location}."
+            hypothesis = f"{agent} was {motion}."
+            yield ( premise, hypothesis, self.ENTAILMENT)
+
+    def gen_go_past_motion_negative(self):
+        """
+        P: AGENT is going to LOCATION.
+        H: AGENT is NON_MOTION_PHRASE.
+        """
+
+        for agent, location, motion in product(self.names, self.location_phrase, self.not_in_motion_phrase):
+            premise = f"{agent} went to {location}."
+            hypothesis = f"{agent} was {motion}."
+            yield ( premise, hypothesis, self.CONTRADICTION )
+
+    def gen_come_present_motion_positive(self):
+        """
+        P: AGENT is coming to LOCATION.
+        H: AGENT is MOTION_PHRASE.
+        """
+        for agent, location, motion in product(self.names, self.location_phrase, self.in_motion_phrase):
+            premise = f"{agent} is coming to {location}."
+            hypothesis = f"{agent} is {motion}."
+            yield ( premise, hypothesis, self.ENTAILMENT)
+
+    def gen_come_present_motion_negative(self):
+        """
+        P: AGENT is coming to LOCATION.
+        H: AGENT is MOTION_PHRASE.
+        """
+        for agent, location, motion in product(self.names, self.location_phrase, self.not_in_motion_phrase):
+            premise = f"{agent} is coming to {location}."
+            hypothesis = f"{agent} is {motion}."
+            yield ( premise, hypothesis, self.CONTRADICTION)
+
+    def gen_come_past_motion_positive(self):
+        """
+        P: AGENT is coming to LOCATION.
+        H: AGENT is MOTION_PHRASE.
+        """
+        for agent, location, motion in product(self.names, self.location_phrase, self.in_motion_phrase):
+            premise = f"{agent} came to {location}."
+            hypothesis = f"{agent} was {motion}."
+            yield ( premise, hypothesis, self.ENTAILMENT)
+
+    def gen_come_past_motion_negative(self):
+        """
+        P: AGENT is coming to LOCATION.
+        H: AGENT is MOTION_PHRASE.
+        """
+        for agent, location, motion in product(self.names, self.location_phrase, self.not_in_motion_phrase):
+            premise = f"{agent} came to {location}."
+            hypothesis = f"{agent} was {motion}."
+            yield ( premise, hypothesis, self.CONTRADICTION)
