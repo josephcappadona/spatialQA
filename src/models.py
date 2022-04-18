@@ -2,12 +2,10 @@ from transformers import T5Tokenizer, T5ForConditionalGeneration, AutoModelForCa
 import torch
 import os
 import openai
-from utils import few_shot_prompt_template, transform_gpt3_model_name
-
+from utils import gpt_prompt_template, unifiedqa_MC_template, tfn_decode, transform_gpt3_model_name
 
 
 def get_model(model_name, device):
-    
     
     if 'unifiedqa' in model_name:
         return get_unifiedqa(model_name, device)
@@ -32,22 +30,23 @@ def get_unifiedqa(model_name, device):
     tokenizer.padding_side = "left"
     tokenizer.pad_token = tokenizer.eos_token
 
-    def t5_encode(batch_x):
-        transform_x = lambda x: few_shot_prompt_template.format(premise=x[0], hypothesis=x[1])
+    def unifiedqa_encode(batch_x):
+        transform_x = lambda x: unifiedqa_MC_template.format(premise=x[0], hypothesis=x[1])
         transformed = list(map(transform_x, batch_x))
         return tokenizer(transformed, return_tensors="pt", padding=True)
     
-    def t5_run_model(inputs):
+    def unifiedqa_run_model(inputs):
         return model.generate(
             input_ids=inputs["input_ids"].to(device),
             attention_mask=inputs["attention_mask"].to(device),
-            do_sample=False,
+            do_sample=False
         )
     
-    def t5_decode(outputs):
-        return tokenizer.batch_decode(outputs, skip_special_tokens=True)
+    def unifiedqa_decode(outputs):
+        batch_decoded = tokenizer.batch_decode(outputs, skip_special_tokens=True)
+        return [tfn_decode(y) for y in batch_decoded]
 
-    return t5_run_model, t5_encode, t5_decode
+    return unifiedqa_run_model, unifiedqa_encode, unifiedqa_decode
 
 
 def get_t5(model_name, device):
@@ -83,7 +82,7 @@ def get_gpt3(model_name):
     api_model_name = transform_gpt3_model_name(model_name)
 
     def gpt3_encode(batch_x):
-        transform_x = lambda x: few_shot_prompt_template.format(premise=x[0], hypothesis=x[1])
+        transform_x = lambda x: gpt_prompt_template.format(premise=x[0], hypothesis=x[1])
         return [transform_x(x) for x in batch_x]
     
     def gpt3_run_model(inputs):
@@ -96,17 +95,7 @@ def get_gpt3(model_name):
         return [d["text"] for d in response["choices"]]
 
     def gpt3_decode(outputs):
-        def transform_y(y):
-            y = y.strip().lower()
-            if y == "true":
-                return "entailment"
-            elif y == "false":
-                return "contradiction"
-            elif y == "neither":
-                return "neutral"
-            else:
-                return ""
-        return [transform_y(y) for y in outputs]
+        return [tfn_decode(y) for y in outputs]
     
     return gpt3_run_model, gpt3_encode, gpt3_decode
     
