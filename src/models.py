@@ -7,7 +7,11 @@ from utils import few_shot_prompt_template, transform_gpt3_model_name
 
 
 def get_model(model_name, device):
-    if 't5' in model_name:
+    
+    if 'unifiedqa' in model_name:
+        return get_unifiedqa(model_name, device)
+
+    elif 't5' in model_name:
         return get_t5(model_name, device)
 
     elif 'mnli' in model_name.lower():
@@ -18,6 +22,31 @@ def get_model(model_name, device):
             'curie' in model_name or 
             'davinci' in model_name):
         return get_gpt3(model_name)
+
+
+def get_unifiedqa(model_name, device):
+
+    model = T5ForConditionalGeneration.from_pretrained(model_name).to(device)
+    tokenizer = T5Tokenizer.from_pretrained(model_name)
+    tokenizer.padding_side = "left"
+    tokenizer.pad_token = tokenizer.eos_token
+
+    def t5_encode(batch_x):
+        transform_x = lambda x: few_shot_prompt_template.format(premise=x[0], hypothesis=x[1])
+        transformed = list(map(transform_x, batch_x))
+        return tokenizer(transformed, return_tensors="pt", padding=True)
+    
+    def t5_run_model(inputs):
+        return model.generate(
+            input_ids=inputs["input_ids"].to(device),
+            attention_mask=inputs["attention_mask"].to(device),
+            do_sample=False,
+        )
+    
+    def t5_decode(outputs):
+        return tokenizer.batch_decode(outputs, skip_special_tokens=True)
+
+    return t5_run_model, t5_encode, t5_decode
 
 
 def get_t5(model_name, device):
