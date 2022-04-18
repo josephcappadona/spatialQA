@@ -17,7 +17,28 @@ def transform_gpt3_model_name(gpt3_model_name):
     else:
         return f"text-{gpt3_model_name}-001"
 
-few_shot_prompt_template = '''A soccer game with multiple males playing.
+
+unifiedqa_MC_template = '''Some men are playing a sport.
+(A) True (B) False (C) Neither
+A soccer game with multiple males playing.
+True
+
+Tons of people are gathered around the statue.
+(A) True (B) False (C) Neither
+A statue at a museum that no seems to be looking at.
+False
+
+The woman is young.
+(A) True (B) False (C) Neither
+A woman with a green headscarf, blue shirt and a very big grin.
+Neither
+
+{hypothesis}
+(A) True (B) False (C) Neither
+{premise}
+'''
+
+gpt_prompt_template = '''A soccer game with multiple males playing.
 Question: Some men are playing a sport. True, false, or neither?
 Answer: True
 
@@ -30,5 +51,16 @@ Question: The woman is young. True, false, or neither?
 Answer: Neither
 
 {premise}
-Question: {hypothesis}
+Question: {hypothesis} True, false, or neither?
 Answer:'''
+
+def tfn_decode(y):
+    y = y.strip().split()[0].lower()
+    if y == "true":
+        return "entailment"
+    elif y == "false":
+        return "contradiction"
+    elif y == "neither":
+        return "neutral"
+    else:
+        return "None"
