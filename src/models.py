@@ -8,6 +8,7 @@ from utils import few_shot_prompt_template, transform_gpt3_model_name
 
 def get_model(model_name, device):
     
+    
     if 'unifiedqa' in model_name:
         return get_unifiedqa(model_name, device)
 
