@@ -141,7 +141,8 @@ def get_mnli(model_name, device):
                 if y == 0: return "contradiction"
                 elif y == 1: return "entailment"
                 elif y == 2: return "neutral"
-        elif "anirudh21/albert-large-v2-finetuned-mnli" == model_name:
+        elif model_name in ["anirudh21/albert-large-v2-finetuned-mnli",
+                            "ynie/roberta-large-snli_mnli_fever_anli_R1_R2_R3-nli"]:
             def transform_y(y):
                 if y == 0: return "entailment"
                 elif y == 1: return "neutral"
