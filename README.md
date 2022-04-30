@@ -29,16 +29,16 @@ python scripts/analyze.py t5-small
 ## Computing graphs
 
 ```bash
-# generate plot of analysis
-python graph/analysis.py
+# Combines result of different model
+python scripts/make_dataframes.py analysis/ summary/
 
-# generate plot of summary
-python graph/summary.py
+# Generate figures
+python scripts/make_figures.py analysis/df_analysis.csv summary/df_summary.csv 
 ```
 
-`analysis.py` outputs a dataframe of combined analysis result to `analysis/df.analysis.csv` and a folder that contains graph created by the dataframe `df.analysis` to `analysis/output_fig_analysis`.
+`make_dataframes.py` outputs a dataframe of combined analysis results to `analysis/df_analysis.csv` and a dataframe of combined summary results to `summary/df_summary.csv` 
 
-`summary.py` outputs a dataframe of combined summary result to `summary/df.summary.csv` and a folder that contains graph created by the dataframe `df.summary` to `summary/output_fig_summary`.
+`make_figures.py` output the figures to `figures`
 
 ## TODO
 
