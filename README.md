@@ -3,7 +3,7 @@
 ## Setup
 
 ```bash
-python3 -m pip install transformers sentencepiece torch
+python3 -m pip install -r requirements.txt
 ```
 
 ## Usage
