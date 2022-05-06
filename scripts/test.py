@@ -21,7 +21,7 @@ if __name__ == '__main__':
     results_filepath = os.path.join(results_dir, results_filename)
     os.makedirs(results_dir, exist_ok=True)
     
-    print('Loading model...')
+    print(f'Loading model {model_name}...')
 
     device = 'cuda:0' if torch.cuda.is_available() else 'cpu'
     run_model, encode_batch, decode_batch = get_model(model_name, device)

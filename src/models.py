@@ -13,14 +13,14 @@ def get_model(model_name, device):
     elif 't5' in model_name.lower():
         return get_t5(model_name, device)
 
+    elif 'mnli' in model_name.lower():
+        return get_mnli(model_name, device)
+
     elif 'snli' in model_name.lower():
         return get_snli(model_name, device)
 
     elif 'nli' in model_name.lower():
         return get_nli(model_name, device)
-
-    elif 'mnli' in model_name.lower():
-        return get_mnli(model_name, device)
 
     elif ('ada' in model_name or 
             'babbage' in model_name or 
@@ -192,6 +192,13 @@ def get_mnli(model_name, device):
                 elif y == 1: return "entailment"
                 elif y == 2: return "neutral"
         elif model_name in ["anirudh21/albert-large-v2-finetuned-mnli",
+                            "Inari/deberta-v3-large-snli_mnli_fever_anli_R1_R2_R3-nli",
+                            "ynie/roberta-large-snli_mnli_fever_anli_R1_R2_R3-nli",
+                            "ynie/albert-xxlarge-v2-snli_mnli_fever_anli_R1_R2_R3-nli",
+                            "ynie/xlnet-large-cased-snli_mnli_fever_anli_R1_R2_R3-nli",
+                            "ynie/bart-large-snli_mnli_fever_anli_R1_R2_R3-nli",
+                            "ynie/electra-large-discriminator-snli_mnli_fever_anli_R1_R2_R3-nli",
+                            "ynie/albert-xxlarge-v2-snli_mnli_fever_anli_R1_R2_R3-nli",
                             "ynie/roberta-large-snli_mnli_fever_anli_R1_R2_R3-nli"]:
             def transform_y(y):
                 if y == 0: return "entailment"
