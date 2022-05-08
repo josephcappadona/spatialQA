@@ -55,8 +55,20 @@ class OrientationGenerator(BaseGenerator):
                     for card_2 in self.cardinals:
                         yield ( premise, f"The {loc_1} is {card_2} of the {loc_3}.", self.NEUTRAL, 0 )
 
+    def gen_left_right_one_hop(self):
+        for dir_rels in [self.left_phrases, self.right_phrases]:
+            for obj_1, obj_2, dir in product(self.objects, self.objects, dir_rels):
+                if obj_1 != obj_2:
+                    premise = f"The {obj_1} is {dir} the {obj_2}."
+
+                    for rev_dir in self.opposite_directions(dir):
+                        yield ( premise, f"The {obj_2} is {rev_dir} the {obj_1}.", self.ENTAILMENT, 0 )
+                    
+                    for non_rev_dir in self.non_opposite_directions(dir):
+                        yield ( premise, f"The {obj_2} is {non_rev_dir} the {obj_1}.", self.CONTRADICTION, 1 )
+
     def gen_left_right_above_below_one_hop(self):
-        for dir_rels in [self.left_phrases, self.right_phrases, self.above_phrases, self.below_phrases]:
+        for dir_rels in [self.above_phrases, self.below_phrases]:
             for obj_1, obj_2, dir in product(self.objects, self.objects, dir_rels):
                 if obj_1 != obj_2:
                     premise = f"The {obj_1} is {dir} the {obj_2}."
