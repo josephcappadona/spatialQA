@@ -14,27 +14,27 @@ def model_name_size(model, path):
     #print(model)
     if 'allenai-unifiedqa-v2-t5' in model:
         if 'base' in model:
-            temp['size'] = 60
+            temp['size'] = 60000000
         elif 'small' in model:
-            temp['size'] = 220
+            temp['size'] = 220000000
         elif 'large' in model:
-            temp['size'] = 770
+            temp['size'] = 770000000
         elif '3b' in model:
-            temp['size'] = 3000
+            temp['size'] = 3000000000
         temp['model'] = 'UnifiedQA'
     elif 'anirudh21-albert-large-v2-finetuned-mnli' in model:
-        temp['size'] = 11
+        temp['size'] = 11000000
         temp['model'] = 'ALBERT'
     elif 'microsoft-deberta' in model:
         if 'base' in model:
-            temp['size'] = 86
+            temp['size'] = 86000000
         elif 'deberta-large' in model:
-            temp['size'] = 350
+            temp['size'] = 350000000
         # error with data, temporary delete
         elif 'deberta-xlarge' in model:
-            temp['size'] = 700
+            temp['size'] = 700000000
         elif 'deberta-v2-xxlarge' in model:
-            temp['size'] = 1320
+            temp['size'] = 1320000000
         temp['model'] = 'DeBERTa'
     elif 'cross-encoder-nli-deberta' in model:
 #         if 'base' in model:
@@ -52,35 +52,35 @@ def model_name_size(model, path):
         temp['size'] = np.NaN
         temp['model'] = 'cross-encoder-roberta'
     elif 'roberta-large-mnli' in model:
-        temp['size'] = 355
+        temp['size'] = 355000000
         temp['model'] = 'RoBERTa'
     elif 'textattack-roberta-base-MNLI' in model:
-        temp['size'] = 125
+        temp['size'] = 125000000
         temp['model'] = 'RoBERTa'
     elif 't5' in model:
         if 'base' in model:
-            temp['size'] = 60
+            temp['size'] = 60000000
         elif 'small' in model:
-            temp['size'] = 220
+            temp['size'] = 220000000
         elif 'large' in model:
-            temp['size'] = 770
+            temp['size'] = 770000000
         elif '3b' in model:
-            temp['size'] = 3000
+            temp['size'] = 3000000000
         temp['model'] = 'T5'
     elif 'textattack-xlnet-base-cased-MNLI' in model:
-        temp['size'] = 110
+        temp['size'] = 110000000
         temp['model'] = 'XLNet'
     elif 'ada' in model:
-        temp['size'] = 2700
+        temp['size'] = 2700000000
         temp['model'] = 'GPT'
     elif 'babbage' in model:
-        temp['size'] = 6700
+        temp['size'] = 6700000000
         temp['model'] = 'GPT'
     elif 'curie' in model:
-        temp['size'] = 13000
+        temp['size'] = 13000000000
         temp['model'] = 'GPT'
     elif 'davinci' in model:
-        temp['size'] = 175000
+        temp['size'] = 175000000000
         temp['model'] = 'GPT'
     else: # ynie models
         temp['size'] = np.NaN
