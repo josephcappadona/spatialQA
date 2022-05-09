@@ -37,15 +37,17 @@ def model_name_size(model, path):
             temp['size'] = 1320
         temp['model'] = 'DeBERTa'
     elif 'cross-encoder-nli-deberta' in model:
-        if 'base' in model:
-            temp['size'] = 86
-        elif 'xsmall' in model:
-            temp['size'] = 22
-        elif 'small' in model:
-            temp['size'] = 44
-        elif 'large' in model:
-            temp['size'] = 350
-        temp['model'] = 'SNLI&MNLI'
+#         if 'base' in model:
+#             temp['size'] = 86
+#         elif 'xsmall' in model:
+#             temp['size'] = 22
+#         elif 'small' in model:
+#             temp['size'] = 44
+#         elif 'large' in model:
+#             temp['size'] = 350
+#         temp['model'] = 'SNLI&MNLI'
+        temp['size'] = np.NaN
+        temp['model'] = np.NaN
     elif 'cross-encoder-nli-roberta' in model:
         temp['size'] = np.NaN
         temp['model'] = 'cross-encoder-roberta'
