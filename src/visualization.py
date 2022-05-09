@@ -298,7 +298,7 @@ def make_figure_summary(df_path, output_dir):
     line_plt.set(ylim=(0, 1))
     line_plt.set(xscale='log')
     line_plt.set(xlabel='Size (Number of parameters)', ylabel='Accuracy w/ partial credit')
-    line_plt.legend(bbox_to_anchor=(1.05, 1), loc=2, fontsize='20')
+    line_plt.legend(bbox_to_anchor=(1.05, 1), loc=2, fontsize='20').set_title("Models")
     line_plt.figure.savefig('{}/Size vs Accuracy with partial credit averaged over all catogries.png'.format(output_dir), bbox_inches='tight')
     
     
@@ -310,7 +310,7 @@ def make_figure_summary(df_path, output_dir):
         temp_plt.set(ylim=(0, 1))
         temp_plt.set(title=i.capitalize(), xlabel='Size (Number of parameters)', ylabel='Accuracy w/ partial credit')
         temp_plt.set(xscale='log')
-        temp_plt.legend(bbox_to_anchor=(1.05, 1), loc=2, fontsize='15')
+        temp_plt.legend(bbox_to_anchor=(1.05, 1), loc=2, fontsize='15').set_title("Models")
         temp_plt.figure.savefig('{}/Size vs Accuracy with partial credit averaged over {}.png'.format(output_dir, i), bbox_inches='tight')
     
 
