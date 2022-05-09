@@ -55,7 +55,10 @@ Question: {hypothesis} True, false, or neither?
 Answer:'''
 
 def tfn_decode(y):
-    y = y.strip().split()[0].lower()
+    try:
+        y = y.strip().split()[0].lower()
+    except Exception:
+        return "None"
     if y == "true":
         return "entailment"
     elif y == "false":
