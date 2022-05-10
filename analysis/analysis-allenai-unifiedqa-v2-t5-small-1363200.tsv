@@ -14,8 +14,8 @@ motion	non_motion_one_hop_jerund	2	48	4	0.08333333333333333
 orientation	cardinals_neutral	0	96	0	0.0
 orientation	cardinals_one_hop	0	24	0	0.0
 orientation	cardinals_one_hop	1	72	72	1.0
-orientation	left_right_above_below_one_hop	0	160	0	0.0
-orientation	left_right_above_below_one_hop	1	640	287	0.4484375
+orientation	above_below_one_hop	0	160	0	0.0
+orientation	above_below_one_hop	1	640	287	0.4484375
 orientation	left_right_one_hop	0	360	0	0.0
 orientation	left_right_one_hop	1	840	687	0.8178571428571428
 distance	far_negative	0	60	59	0.9833333333333333

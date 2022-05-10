@@ -67,7 +67,7 @@ class OrientationGenerator(BaseGenerator):
                     for non_rev_dir in self.non_opposite_directions(dir):
                         yield ( premise, f"The {obj_2} is {non_rev_dir} the {obj_1}.", self.CONTRADICTION, 1 )
 
-    def gen_left_right_above_below_one_hop(self):
+    def gen_above_below_one_hop(self):
         for dir_rels in [self.above_phrases, self.below_phrases]:
             for obj_1, obj_2, dir in product(self.objects, self.objects, dir_rels):
                 if obj_1 != obj_2:
