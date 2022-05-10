@@ -14,16 +14,16 @@ def model_name_size(model, path):
     #print(model)
     if 'allenai-unifiedqa-v2-t5' in model:
         if 'base' in model:
-            temp['size'] = 60000000
-        elif 'small' in model:
             temp['size'] = 220000000
+        elif 'small' in model:
+            temp['size'] = 60000000
         elif 'large' in model:
             temp['size'] = 770000000
         elif '3b' in model:
             temp['size'] = 3000000000
         temp['model'] = 'UnifiedQA'
     elif 'anirudh21-albert-large-v2-finetuned-mnli' in model:
-        temp['size'] = 11000000
+        temp['size'] = 17000000
         temp['model'] = 'ALBERT'
     elif 'microsoft-deberta' in model:
         if 'base' in model:
@@ -59,9 +59,9 @@ def model_name_size(model, path):
         temp['model'] = 'RoBERTa'
     elif 't5' in model:
         if 'base' in model:
-            temp['size'] = 60000000
-        elif 'small' in model:
             temp['size'] = 220000000
+        elif 'small' in model:
+            temp['size'] = 60000000
         elif 'large' in model:
             temp['size'] = 770000000
         elif '3b' in model:
