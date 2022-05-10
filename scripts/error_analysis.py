@@ -35,8 +35,8 @@ if __name__ == '__main__':
     
     error_analysis_df['avg_test_acc'] /= len(model_names)
     error_analysis_df = error_analysis_df.sort_values('avg_test_acc')
+    print(error_analysis_df)
     
     error_analysis_filename = os.path.join(analysis_dir, 'error-analysis.tsv')
     error_analysis_df.to_csv(error_analysis_filename, sep='\t')
-
     print(f'Error analysis dataframe output to {error_analysis_filename}.')
