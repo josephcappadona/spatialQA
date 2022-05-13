@@ -388,9 +388,11 @@ def make_figure_summary(df_path, output_dir):
         temp_plt_1.set(xscale='log')
         temp_plt_1.legend(bbox_to_anchor=(1.05, 1), loc=2, fontsize='25').set_title("Models")
         temp_plt_1.figure.savefig('{}/Size vs Accuracy with partial credit averaged over {}.png'.format(output_dir, i), bbox_inches='tight')
+        plt.clf()
         
-        #plt.figure(figsize = (15,8))
-        #sns.set(font_scale = 2.5)
+    for i in ['motion', 'orientation', 'distance', 'containment', 'metaphor']:
+#         plt.figure(figsize = (15,8))
+#         sns.set(font_scale = 2.5)
         temp_plt_2 = sns.lineplot(data=df_with_size[df_with_size['reasoning_type'] == i], x="size", y="acc_wo_partial_credit", hue="model", estimator = None, markersize=10, linewidth = 3, marker="o")
         temp_plt_2.set(ylim=(0, 1))
         temp_plt_2.set(title=i.capitalize())
@@ -399,6 +401,7 @@ def make_figure_summary(df_path, output_dir):
         temp_plt_2.set(xscale='log')
         temp_plt_2.legend(bbox_to_anchor=(1.05, 1), loc=2, fontsize='25').set_title("Models")
         temp_plt_2.figure.savefig('{}/Size vs Accuracy without partial credit averaged over {}.png'.format(output_dir, i), bbox_inches='tight')
+        plt.clf()
     
 
 
