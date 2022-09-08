@@ -33,6 +33,20 @@ model_names = {
     'textattack-xlnet-base-cased-MNLI': 'xlnet-b'
 }
 
+def df_to_latex(df, ignore_last=0, stdev=False):
+    rows = []
+    for _, row in df.iterrows():
+        vals = [row[0]]
+        valid = row[1:-ignore_last]
+        zipped = zip(valid[::2], valid[1::2]) if stdev else zip(valid, valid)
+        for x, sd in zipped:
+            if stdev:
+                vals.append(f"{x*100:.1f} ({sd*100:.1f})")
+            else:
+                vals.append(f"{x*100:.1f}")
+        rows.append(' & '.join(vals))
+    return '\n'.join(rows)
+
 if __name__ == '__main__':
     
     summary_dir = argv[1]
@@ -69,8 +83,8 @@ if __name__ == '__main__':
         wopc_summary_df = pd.concat([wopc_summary_df, pd.DataFrame([wopc_model_summary])])
         wpc_summary_df = pd.concat([wpc_summary_df, pd.DataFrame([wpc_model_summary])])
 
-    print(wopc_summary_df)
-    print(wpc_summary_df)
+    print(df_to_latex(wopc_summary_df, ignore_last=1))
+    print(df_to_latex(wpc_summary_df, ignore_last=2, stdev=False))
 
     wopc_summary_filename = os.path.join(summary_dir, 'wopc-summary.tsv')
     wopc_summary_df.to_csv(wopc_summary_filename, sep='\t')
