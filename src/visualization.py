@@ -87,6 +87,14 @@ def model_name_size(model, path):
         temp['model'] = np.NaN
     return temp
 
+def get_largest(df):
+    df_largest = pd.DataFrame()
+    for model in list(df.model.unique()):
+        df = df[df['size'].notna()]
+        max_size = df[df['model'] == model]['size'].max()
+        temp = df[df['size'] == max_size]
+        df_largest = pd.concat([df_largest, temp], ignore_index=True)
+    return df_largest
 
 def get_analysis_df(analysis_file_path):
 
@@ -103,7 +111,10 @@ def get_analysis_df(analysis_file_path):
     # remove '.DS_Store' file
     if '.DS_Store' in analysis_files:
         analysis_files.remove('.DS_Store')
-    
+        
+    if 'error-analysis.tsv' in analysis_files:
+        analysis_files.remove('error-analysis.tsv')
+
     # Combine all files to a dataframe
     df_analysis = pd.DataFrame()
     for model in analysis_files:
@@ -129,6 +140,12 @@ def get_summary_df(summary_file_path):
     # remove '.DS_Store' file
     if '.DS_Store' in summary_files:
         summary_files.remove('.DS_Store')
+        
+    if 'wopc-summary.tsv' in summary_files:
+        summary_files.remove('wopc-summary.tsv')
+
+    if 'wpc-summary.tsv' in summary_files:
+        summary_files.remove('wpc-summary.tsv')
 
     # Combine all files to a dataframe
     df_summary = pd.DataFrame()
@@ -170,6 +187,15 @@ def make_figure_analysis(df_path, output_dir):
     boxplt_1.set_xticklabels(boxplt_1.get_xticklabels(), rotation=20, ha="right", fontsize=15)
     boxplt_1.set(xlabel='Reasoning type', ylabel='Test accuracy')
     boxplt_1.figure.savefig('{}/Box plot of Reasoning type vs test accuracy.png'.format(output_dir), bbox_inches='tight')
+    
+    # Box plot of Reasoning type vs Test accuracy with the largest size
+    plt.figure(figsize=(10,6), dpi=120)
+    sns.set(font_scale=1.5)
+    boxplt_largest_size = sns.boxplot(x='reasoning_type', y='test_acc', data=get_largest(df), palette='vlag')
+    sns.stripplot(x='reasoning_type', y='test_acc', data=df,size=3, color='.3')
+    boxplt_largest_size.set_xticklabels(boxplt_1.get_xticklabels(), rotation=20, ha="right", fontsize=15)
+    boxplt_largest_size.set(xlabel='Reasoning type', ylabel='Test accuracy')
+    boxplt_largest_size.figure.savefig('{}/Box plot of Reasoning type vs Test accuracy with the largest size'.format(output_dir), bbox_inches='tight')
 
 
     # Box plot of Model vs Test accuracy
@@ -209,7 +235,7 @@ def make_figure_summary(df_path, output_dir):
     sns.set_theme(style="whitegrid")
     sns.set(font_scale=2)
 
-    # Model vs Accuracy without partial credit
+    # Model vs averaged Accuracy without partial credit among all size
     plt_1 = sns.catplot(data=df[df['size'].notna()], kind="bar", 
                     x="model", y="acc_wo_partial_credit", 
                     hue="reasoning_type", ci=None, alpha=.8, 
@@ -221,23 +247,51 @@ def make_figure_summary(df_path, output_dir):
     plt_1.set_xticklabels(rotation=10, fontsize=20)
     plt_1.legend.set_title("Reasoning type")
     plt_1.savefig('{}/Model vs Accuracy without partial credit.png'.format(output_dir))
-
-
-    # Model vs Accuracy with partial credit
-    sns.set_theme(style="whitegrid")
-    sns.set(font_scale=2)
-
-    plt_2 = sns.catplot(data=df[df['size'].notna()], kind="bar", 
-                    x="model", y="acc_w_partial_credit", 
+    
+    # Model vs Accuracy without partial credit of the largest model
+    plt_2 = sns.catplot(data=get_largest(df), kind="bar", 
+                    x="model", y="acc_wo_partial_credit", 
                     hue="reasoning_type", ci=None, alpha=.8, 
                     height=6, legend_out=True, aspect = 2
                     )
     plt_2.despine(left=True)
-    plt_2.set_axis_labels("Models", "Accuracy w/ partial credit")
+    plt_2.set_axis_labels("Models", "Accuracy w/o partial credit")
     plt_2.set(ylim=(0, 1))
     plt_2.set_xticklabels(rotation=10, fontsize=20)
     plt_2.legend.set_title("Reasoning type")
-    plt_2.savefig('{}/Model vs Accuracy with partial credit.png'.format(output_dir))
+    plt_2.savefig('{}/Model vs Accuracy without partial credit of the largest model.png'.format(output_dir))
+
+
+    # Model vs averaged Accuracy without partial credit among all size
+    sns.set_theme(style="whitegrid")
+    sns.set(font_scale=2)
+
+    plt_3 = sns.catplot(data=df[df['size'].notna()], kind="bar", 
+                    x="model", y="acc_w_partial_credit", 
+                    hue="reasoning_type", ci=None, alpha=.8, 
+                    height=6, legend_out=True, aspect = 2
+                    )
+    plt_3.despine(left=True)
+    plt_3.set_axis_labels("Models", "Accuracy w/ partial credit")
+    plt_3.set(ylim=(0, 1))
+    plt_3.set_xticklabels(rotation=10, fontsize=20)
+    plt_3.legend.set_title("Reasoning type")
+    plt_3.savefig('{}/Model vs Accuracy with partial credit.png'.format(output_dir))
+    
+    
+    # Model vs Accuracy with partial credit of the largest model
+    plt_4 = sns.catplot(data=get_largest(df), kind="bar", 
+                    x="model", y="acc_w_partial_credit", 
+                    hue="reasoning_type", ci=None, alpha=.8, 
+                    height=6, legend_out=True, aspect = 2
+                    )
+    plt_4.despine(left=True)
+    plt_4.set_axis_labels("Models", "Accuracy w/o partial credit")
+    plt_4.set(ylim=(0, 1))
+    plt_4.set_xticklabels(rotation=10, fontsize=20)
+    plt_4.legend.set_title("Reasoning type")
+    plt_4.savefig('{}/Model vs Accuracy with partial credit of the largest model.png'.format(output_dir))
+
 
 
 #     # Model vs Accuracy with partial credit with trimmed error bars
@@ -296,24 +350,58 @@ def make_figure_summary(df_path, output_dir):
     
     # Line plot of Size vs Accuracy w/ partial credit averaged over all catogries.
     plt.figure(figsize = (15,8))
-    line_plt = sns.lineplot(data=df[df['size'].notna()], x="size", y="acc_w_partial_credit", hue="model", err_style="bars", ci=68, markersize=15, linewidth = 3, style="model", markers=True)
-    line_plt.set(ylim=(0, 1))
-    line_plt.set(xscale='log')
-    line_plt.set(xlabel='Size (Number of parameters)', ylabel='Accuracy w/ partial credit')
-    line_plt.legend(bbox_to_anchor=(1.05, 1), loc=2, fontsize='20').set_title("Models")
-    line_plt.figure.savefig('{}/Size vs Accuracy with partial credit averaged over all catogries.png'.format(output_dir), bbox_inches='tight')
+    sns.set(font_scale = 2.5)
+    line_plt_1 = sns.lineplot(data=df[df['size'].notna()], x="size", y="acc_w_partial_credit", hue="model", err_style="bars", ci=68, markersize=15, linewidth = 3, style="model", markers=True)
+    line_plt_1.set(ylim=(0, 1))
+    line_plt_1.set(xscale='log')
+    #line_plt.set(xlabel='Size (Number of parameters)', ylabel='Accuracy w/ partial credit')
+    line_plt_1.set_xlabel("Size (Number of parameters)",fontsize=30)
+    line_plt_1.set_ylabel("Accuracy w/ partial credit",fontsize=25)
+    line_plt_1.legend(bbox_to_anchor=(1.05, 1), loc=2, fontsize='25').set_title("Models")
+    line_plt_1.figure.savefig('{}/Size vs Accuracy with partial credit averaged over all catogries.png'.format(output_dir), bbox_inches='tight')
+    
+    # Line plot of Size vs Accuracy without partial credit averaged over all catogries
+    plt.figure(figsize = (15,8))
+    sns.set(font_scale = 2.5)
+    line_plt_2 = sns.lineplot(data=df[df['size'].notna()], x="size", y="acc_wo_partial_credit", hue="model", err_style="bars", ci=68, markersize=15, linewidth = 3, style="model", markers=True)
+    line_plt_2.set(ylim=(0, 1))
+    line_plt_2.set(xscale='log')
+    #line_plt.set(xlabel='Size (Number of parameters)', ylabel='Accuracy w/ partial credit')
+    line_plt_2.set_xlabel("Size (Number of parameters)",fontsize=30)
+    line_plt_2.set_ylabel("Accuracy w/o partial credit",fontsize=25)
+    line_plt_2.legend(bbox_to_anchor=(1.05, 1), loc=2, fontsize='25').set_title("Models")
+    line_plt_2.figure.savefig('{}/Size vs Accuracy without partial credit averaged over all catogries.png'.format(output_dir), bbox_inches='tight')
+
     
     
     df_with_size = df[df['size'].notna()]
     # Line plots of Size vs Accuracy w/ partial credit averaged by catogries.
     for i in ['motion', 'orientation', 'distance', 'containment', 'metaphor']:
         plt.figure(figsize = (15,8))
-        temp_plt = sns.lineplot(data=df_with_size[df_with_size['reasoning_type'] == i], x="size", y="acc_w_partial_credit", hue="model", estimator = None, markersize=10, linewidth = 3, marker="o")
-        temp_plt.set(ylim=(0, 1))
-        temp_plt.set(title=i.capitalize(), xlabel='Size (Number of parameters)', ylabel='Accuracy w/ partial credit')
-        temp_plt.set(xscale='log')
-        temp_plt.legend(bbox_to_anchor=(1.05, 1), loc=2, fontsize='15').set_title("Models")
-        temp_plt.figure.savefig('{}/Size vs Accuracy with partial credit averaged over {}.png'.format(output_dir, i), bbox_inches='tight')
+        sns.set(font_scale = 2.5)
+        
+        temp_plt_1 = sns.lineplot(data=df_with_size[df_with_size['reasoning_type'] == i], x="size", y="acc_w_partial_credit", hue="model", estimator = None, markersize=10, linewidth = 3, marker="o")
+        temp_plt_1.set(ylim=(0, 1))
+        temp_plt_1.set(title=i.capitalize())
+        temp_plt_1.set_xlabel("Size (Number of parameters)",fontsize=30)
+        temp_plt_1.set_ylabel("Accuracy w/ partial credit",fontsize=25)
+        temp_plt_1.set(xscale='log')
+        temp_plt_1.legend(bbox_to_anchor=(1.05, 1), loc=2, fontsize='25').set_title("Models")
+        temp_plt_1.figure.savefig('{}/Size vs Accuracy with partial credit averaged over {}.png'.format(output_dir, i), bbox_inches='tight')
+        plt.clf()
+        
+    for i in ['motion', 'orientation', 'distance', 'containment', 'metaphor']:
+#         plt.figure(figsize = (15,8))
+#         sns.set(font_scale = 2.5)
+        temp_plt_2 = sns.lineplot(data=df_with_size[df_with_size['reasoning_type'] == i], x="size", y="acc_wo_partial_credit", hue="model", estimator = None, markersize=10, linewidth = 3, marker="o")
+        temp_plt_2.set(ylim=(0, 1))
+        temp_plt_2.set(title=i.capitalize())
+        temp_plt_2.set_xlabel("Size (Number of parameters)",fontsize=30)
+        temp_plt_2.set_ylabel("Accuracy w/ partial credit",fontsize=25)
+        temp_plt_2.set(xscale='log')
+        temp_plt_2.legend(bbox_to_anchor=(1.05, 1), loc=2, fontsize='25').set_title("Models")
+        temp_plt_2.figure.savefig('{}/Size vs Accuracy without partial credit averaged over {}.png'.format(output_dir, i), bbox_inches='tight')
+        plt.clf()
     
 
 
@@ -321,18 +409,18 @@ def make_figure_summary(df_path, output_dir):
     # Box plot of Reasoning type vs Accuracy with partial credit.
     plt.figure(figsize=(10,6), dpi=120)
     sns.set(font_scale=1.5)
-    boxplt_1 = sns.boxplot(x='reasoning_type', y='acc_w_partial_credit', data=df_with_size,palette='vlag')
+    boxplt_5 = sns.boxplot(x='reasoning_type', y='acc_w_partial_credit', data=df_with_size,palette='vlag')
     sns.stripplot(x='reasoning_type', y='acc_w_partial_credit', data=df,size=3, color='.3')
-    boxplt_1.set_xticklabels(boxplt_1.get_xticklabels(), rotation=40, ha="right", fontsize=15)
-    boxplt_1.set(xlabel='Reasoning type', ylabel='Accuracy w/ partial credit')
-    boxplt_1.figure.savefig('{}/Box plot of Reasoning type vs Accuracy with partial credit.png'.format(output_dir), bbox_inches='tight')
+    boxplt_5.set_xticklabels(boxplt_5.get_xticklabels(), rotation=40, ha="right", fontsize=15)
+    boxplt_5.set(xlabel='Reasoning type', ylabel='Accuracy w/ partial credit')
+    boxplt_5.figure.savefig('{}/Box plot of Reasoning type vs Accuracy with partial credit.png'.format(output_dir), bbox_inches='tight')
 
 
     # Box plot of Model vs Accuracy with partial credit
     plt.figure(figsize=(10,6), dpi=120)
     sns.set(font_scale=1.5)
-    boxplt_2 = sns.boxplot(x='model', y='acc_w_partial_credit', data=df_with_size,palette='vlag')
+    boxplt_6 = sns.boxplot(x='model', y='acc_w_partial_credit', data=df_with_size,palette='vlag')
     sns.stripplot(x='model', y='acc_w_partial_credit', data=df,size=3, color='.3')
-    boxplt_2.set_xticklabels(boxplt_2.get_xticklabels(), rotation=40, ha="right", fontsize=15)
-    boxplt_2.set(xlabel='Model', ylabel='Test accuracy')
-    boxplt_2.figure.savefig('{}/Box plot of Model vs Accuracy with partial credit.png'.format(output_dir), bbox_inches='tight')
+    boxplt_6.set_xticklabels(boxplt_6.get_xticklabels(), rotation=40, ha="right", fontsize=15)
+    boxplt_6.set(xlabel='Model', ylabel='Test accuracy')
+    boxplt_6.figure.savefig('{}/Box plot of Model vs Accuracy with partial credit.png'.format(output_dir), bbox_inches='tight')
